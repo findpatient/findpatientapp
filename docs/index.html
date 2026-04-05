@@ -1,192 +1,266 @@
-<!--
-=========================================================
-DEFAULT WEB PAGE - THIS FILE CANNOT BE EDITED
-COPYRIGHT INFINITYFREE
-=========================================================
-
-This default web page is protected against modifications.
-
-To upload your own site, please delete this file and
-upload your own page as "index.php" or "index.html".
-
-=========================================================
--->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to your InfinityFree website</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400">
-    <link rel="stylesheet" href="https://vpassets.infinityfree.net/welcome2024/style.css">
-    <link rel="icon" href="https://vpassets.infinityfree.net/welcome2024/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="https://vpassets.infinityfree.net/welcome2024/favicon.ico" type="image/x-icon">
+  <meta charset="UTF-8" />
+  <title>findpatient – Coming soon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --nhs-blue: #005eb8;
+      --nhs-grey: #425563;
+      --nhs-light-grey: #f0f4f5;
+      --accent-purple: #7b3fe4;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      background: #ffffff;
+      color: var(--nhs-grey);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      border-bottom: 1px solid #dde3e6;
+      padding: 32px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .center-logo {
+      height: 80px;
+      width: auto;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+      background: linear-gradient(135deg, #ffffff 0%, #f7f8fb 40%, #f0f4ff 100%);
+    }
+
+    .card {
+      max-width: 720px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      padding: 32px 28px;
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: 24px;
+      position: relative;
+    }
+
+    .card::before {
+      content: "findpatient";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 8rem;
+      font-weight: 600;
+      color: var(--nhs-grey);
+      opacity: 0.03;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card-heading {
+      font-size: 1.9rem;
+      line-height: 1.2;
+      color: var(--nhs-blue);
+      margin-bottom: 12px;
+    }
+
+    .card-subtitle {
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      color: var(--nhs-grey);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--nhs-light-grey);
+      font-size: 0.8rem;
+      color: var(--nhs-grey);
+      margin-bottom: 16px;
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #00a499;
+    }
+
+    .meta-list {
+      list-style: none;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .meta-list li + li {
+      margin-top: 4px;
+    }
+
+    .tagline {
+      font-size: 0.9rem;
+      color: var(--accent-purple);
+      font-weight: 500;
+    }
+
+    .right-panel {
+      border-left: 1px solid #edf0f2;
+      padding-left: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .right-panel {
+        border-left: none;
+        border-top: 1px solid #edf0f2;
+        padding-left: 0;
+        padding-top: 20px;
+      }
+    }
+
+    .status-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--nhs-grey);
+      margin-bottom: 8px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(123, 63, 228, 0.06);
+      color: var(--accent-purple);
+      font-size: 0.8rem;
+      margin-bottom: 16px;
+    }
+
+    .status-badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-purple);
+    }
+
+    .info-block {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .email-link {
+      color: var(--nhs-blue);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .email-link:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      padding: 12px 24px 18px;
+      font-size: 0.8rem;
+      color: #6b7780;
+      border-top: 1px solid #dde3e6;
+      text-align: right;
+    }
+  </style>
 </head>
 <body>
-    <header class="site-header">
-        <div class="container">
-            <div class="site-header-inner">
-                <div class="brand header-brand">
-                    <h1 class="m-0">
-                        <a href="https://www.infinityfree.com">
-                            <img src="https://vpassets.infinityfree.net/welcome2024/logo-header.png" alt="InfinityFree">
-                        </a>
-                    </h1>
-                </div>
-            </div>
+  <header>
+    <img src="logo.png" alt="findpatient large logo" class="center-logo" />
+  </header>
+
+  <main>
+    <section class="card" aria-labelledby="fp-heading">
+      <div>
+        <div class="pill">
+          <span class="pill-dot"></span>
+          <span>Digital inpatient list · NHS‑style</span>
         </div>
-    </header>
 
-    <main>
-        <section class="hero">
-            <div class="container">
-                <div class="hero-inner">
-                    <div class="hero-copy">
-                        <h1 class="hero-title h2-mobile mt-0">
-                            Your domain
-                            <br /> is ready!
-                        </h1>
-                        <p class="hero-paragraph">
-                            This page is loaded from the directory <strong class="path-var">"/htdocs"</strong> of your InfinityFree hosting account. So you are ready to set up your website!
-                        </p>
-                        <p class="hero-cta">
-                            <a class="button button-primary button-shadow" href="https://forum.infinityfree.com/docs?topic=49312" target="_blank">
-                                Open Getting Started Guide
-                            </a>
-                        </p>
-                    </div>
-                    <div class="hero-illustration">
-                        <img src="https://vpassets.infinityfree.net/welcome2024/hero-illustration.svg" alt="Illustration">
-                    </div>
-                </div>
-            </div>
-        </section>
+        <h1 id="fp-heading" class="card-heading">
+          A smarter way to find and follow inpatients.
+        </h1>
 
-        <section class="features section text-center">
-            <div class="section-square"></div>
-            <div class="container">
-                <div class="features-inner section-inner">
-                    <div class="features-wrap">
-                        <div class="feature">
-                            <div class="feature-inner">
-                                <h4 class="feature-title h3-mobile">1. Find website folder</h4>
-                                <p class="text-sm">
-                                    You can find the website of this domain name in the directory <strong class="path-var">"/htdocs"</strong> on your account.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="feature">
-                            <div class="feature-inner">
-                                <h4 class="feature-title h3-mobile">2. Upload an index file</h4>
-                                <p class="text-sm">
-                                    In your website directory, upload a file with the name <strong>index.php</strong> or <strong>index.html</strong> to act as the home page.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="feature">
-                            <div class="feature-inner">
-                                <h4 class="feature-title h3-mobile">3. Delete index2.html</h4>
-                                <p class="text-sm">
-                                    When your own website is set up, you can delete this file, called <strong>index2.html</strong>, from your website folder.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <p class="card-subtitle">
+          <strong>findpatient</strong> is a lightweight, browser‑based inpatient list designed to feel familiar to NHS teams while
+          reducing friction, duplication and missed information.
+        </p>
 
-        <section class="pricing section">
-            <div class="section-square"></div>
-            <div class="container">
-                <div class="pricing-inner section-inner has-top-divider">
-                    <h2 class="section-title mt-0 text-center">How to build a website</h2>
-                    <div class="pricing-tables-wrap">
-                        <div class="pricing-table">
-                            <div class="pricing-table-inner">
-                                <div class="pricing-table-main">
-                                    <h4 class="feature-title h3-mobile">Site.Pro Builder</h4>
-                                    <p class="text-sm">
-                                        Use the Site.pro website builder, included with InfinityFree, to build anything from simple landing pages to fully featured online stores.
-                                        All fully SEO optimized, completely mobile friendly and available in many languages.
-                                    </p>
-                                </div>
-                                <div class="pricing-table-cta">
-                                    <a class="button button-primary button-shadow button-block" href="https://forum.infinityfree.com/docs?topic=94339" target="_blank">
-                                        Learn about Site.Pro
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="pricing-table">
-                            <div class="pricing-table-inner">
-                                <div class="pricing-table-main">
-                                    <h4 class="feature-title h3-mobile">Softaculous Installer</h4>
-                                    <p class="text-sm">
-                                        Use the Softaculous automatic script installer to install one of over 400 scripts, applications and CMS like WordPress with only a few clicks, and automatically keep them up to date.
-                                    </p>
-                                </div>
-                                <div class="pricing-table-cta">
-                                    <a class="button button-primary button-shadow button-block" href="https://forum.infinityfree.com/docs?topic=49314" target="_blank">
-                                        Learn about Softaculous
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="pricing-table">
-                            <div class="pricing-table-inner">
-                                <div class="pricing-table-main">
-                                    <h4 class="feature-title h3-mobile">Upload your own</h4>
-                                    <p class="text-sm">
-                                        Migrate your existing website from your previous hosting provider, or build your own website using the tools of your choice! With PHP and MySQL support, you can build almost anything.
-                                    </p>
-                                </div>
-                                <div class="pricing-table-cta">
-                                    <a class="button button-primary button-shadow button-block" href="https://forum.infinityfree.com/docs?topic=49306">
-                                        Learn about Uploading
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+        <ul class="meta-list">
+          <li><strong>Built for:</strong> ward teams, on‑call doctors, and multidisciplinary workflows.</li>
+          <li><strong>Focus:</strong> clarity, safety, and rapid situational awareness at the bedside.</li>
+          <li><strong>Hosting:</strong> secure, GitHub Pages–backed prototype environment.</li>
+        </ul>
 
-    <footer class="site-footer text-light">
-        <div class="container">
-            <div class="site-footer-inner has-top-divider">
-                <div class="brand footer-brand">
-                    <a href="https://www.infinityfree.com">
-                        <img src="https://vpassets.infinityfree.net/welcome2024/logo-footer.png" alt="InfinityFree">
-                    </a>
-                </div>
-                <ul class="footer-links list-reset">
-                    <li>
-                        <a href="https://dash.infinityfree.com/login">Client Area</a>
-                    </li>
-                    <li>
-                        <a href="https://forum.infinityfree.com/docs">Knowledge Base</a>
-                    </li>
-                    <li>
-                        <a href="https://forum.infinityfree.com/">Community Forum</a>
-                    </li>
-                </ul>
-                <ul class="footer-secondary-links list-reset">
-                    <li>
-                        <a href="https://www.infinityfree.com">
-                            Create your own completely free web hosting account with InfinityFree!
-                        </a>
-                    </li>
-                </ul>
-                <div class="footer-copyright">
-                    Copyright &copy; InfinityFree, All rights reserved
-                </div>
-            </div>
+        <p class="tagline">
+          Clean lists. Clear priorities. Less cognitive load.
+        </p>
+      </div>
+
+      <aside class="right-panel" aria-label="Status and contact">
+        <div class="status-label">Status</div>
+        <div class="status-badge">
+          <span class="status-badge-dot"></span>
+          <span>Private beta · Coming soon</span>
         </div>
-    </footer>
+
+        <p class="info-block">
+          We’re currently refining workflows, UI details and hosting for early clinical testing. If you’re interested in
+          piloting or giving feedback, we’d love to hear from you.
+        </p>
+
+        <p class="info-block">
+          <strong>Contact:</strong><br />
+          <a class="email-link" href="mailto:info@findpatient.app">info@findpatient.app</a>
+        </p>
+
+        <p class="info-block">
+          This is a prototype and not yet a clinical system of record.
+        </p>
+      </aside>
+    </section>
+  </main>
+
+  <footer>
+    &copy; <span id="year"></span> Alexander Ashley. All rights reserved.
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
