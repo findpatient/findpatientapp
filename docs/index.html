@@ -309,27 +309,35 @@
     }
 
     function loadTrackingBoard() {
-        activeToolLabel.textContent = "Tracking Board";
-        selectorBar.classList.remove("hidden");
-        loadingSpinner.style.display = "block";
+        loadingMessage.style.display = "block";
+        iframe.style.display = "none";
 
-        highlightTool(toolTracking);
+        selectorBar.classList.remove("hidden"); // show selector bar
 
-        iframe.src =
-            "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_Filtered";
+        iframe.src = "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_Filtered"; // your Excel embed
+        iframe.onload = () => {
+            loadingMessage.style.display = "none";
+            iframe.style.display = "block";
+        };
+
+        highlightTool("tracking");
     }
 
     function loadForm() {
-        activeToolLabel.textContent = "Add Patient";
-        selectorBar.classList.add("hidden");
-        loadingSpinner.style.display = "block";
+        loadingMessage.style.display = "block";
+        iframe.style.display = "none";
 
-        highlightTool(toolAddPatient);
+        selectorBar.classList.add("hidden"); // hide selector bar
 
-        iframe.src = "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=slTDN7CF9UeyIge0jXdO4-gZCzn4LxVOhNz2gCIcK5JUNlJDTjlEVDk1SEhHMVFPTVowNTJGNzVOTC4u&embed=true"
-;
+        iframe.src = "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=slTDN7CF9UeyIge0jXdO4-gZCzn4LxVOhNz2gCIcK5JUNlJDTjlEVDk1SEhHMVFPTVowNTJGNzVOTC4u&embed=true";
+        iframe.onload = () => {
+            loadingMessage.style.display = "none";
+            iframe.style.display = "block";
+        };
 
+        highlightTool("addpatient");
     }
+
 
     /* -------------------------
        HOSPITAL + LOCATION
