@@ -1,499 +1,511 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
+  <head>
     <title>ED Downtime Tracking Tool</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <style>
-        body {
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: #ffffff;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #ffffff;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+      }
 
-        /* NHS Header Bar */
-        #nhsHeader {
-            background: #005EB8;
-            color: white;
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-        }
+      /* NHS Header Bar */
+      #nhsHeader {
+        background: #005eb8;
+        color: white;
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+      }
 
-        #nhsHeaderLeft img {
-            height: 40px;
-        }
+      #nhsHeaderLeft img {
+        height: 40px;
+      }
 
-        #nhsHeaderCenter {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 24px;
-            font-weight: 600;
-            pointer-events: none;
-        }
+      #nhsHeaderCenter {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 24px;
+        font-weight: 600;
+        pointer-events: none;
+      }
 
-        #nhsHeaderRight {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 4px;
-        }
+      #nhsHeaderRight {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
+      }
 
-        /* Default Tools button (desktop) — match mobile version */
-        .menuButton {
-            background: #E8EDEE;
-            color: #003087;
-            padding: 6px 14px;
-            border-radius: 4px;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            position: relative;
-            white-space: nowrap;
-            width: 110px;
-            justify-content: center;
-        }
+      /* Default Tools button (desktop) — match mobile version */
+      .menuButton {
+        background: #e8edee;
+        color: #003087;
+        padding: 6px 14px;
+        border-radius: 4px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        position: relative;
+        white-space: nowrap;
+        width: 110px;
+        justify-content: center;
+      }
 
-        /* Hover (inactive) */
-        .menuButton:not(.activeButton):hover {
-            background: #d9dfe5 !important;
-        }
+      /* Hover (inactive) */
+      .menuButton:not(.activeButton):hover {
+        background: #d9dfe5 !important;
+      }
 
-        /* Active Tools button (menu open) */
-        .menuButton.activeButton {
-            background: #d9dfe5 !important;
-            color: #003087 !important;
-        }
+      /* Active Tools button (menu open) */
+      .menuButton.activeButton {
+        background: #d9dfe5 !important;
+        color: #003087 !important;
+      }
 
+      .menuButton span {
+        font-size: 16px;
+        font-weight: 500;
+      }
 
-        .menuButton span {
-            font-size: 16px;
-            font-weight: 500;
-        }
+      /* Dropdown menu */
+      .dropdownMenu {
+        display: none;
+        position: absolute;
+        top: 42px;
+        left: 0;
+        background: white;
+        color: #333;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        min-width: 160px;
+        text-align: left;
+        z-index: 10;
+      }
 
-        /* Dropdown menu */
-        .dropdownMenu {
-            display: none;
-            position: absolute;
-            top: 42px;
-            left: 0;
-            background: white;
-            color: #333;
-            border-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            min-width: 160px;
-            text-align: left;
-            z-index: 10;
-        }
+      .dropdownMenu div {
+        padding: 10px 14px;
+        border-left: 3px solid transparent;
+        cursor: pointer;
+      }
 
-        .dropdownMenu div {
-            padding: 10px 14px;
-            border-left: 3px solid transparent; 
-            cursor: pointer;
-        }
+      .dropdownMenu div:hover {
+        background: #e6f0fa;
+        border-left: 3px solid #005eb8;
+      }
 
-        .dropdownMenu div:hover {
-            background: #e6f0fa;
-            border-left: 3px solid #005EB8;
-        }
+      .selectedItem {
+        background: #e6f0fa !important;
+        color: #005eb8 !important;
+        font-weight: 600;
+      }
 
+      .dropdownDivider {
+        border: none;
+        height: 1px;
+        background: #d0d0d0;
+        width: 80%;
+        margin: 6px auto;
+        padding: 0;
+        pointer-events: none;
+      }
 
-        .selectedItem {
-            background: #e6f0fa !important;
-            color: #005EB8 !important;
-            font-weight: 600;
-        }
+      #selectorBar {
+        display: flex;
+        gap: 8px;
+        padding: 12px 30px;
+        justify-content: flex-start;
+      }
 
-        .dropdownDivider {
-            border: none;
-            height: 1px;
-            background: #d0d0d0;
-            width: 80%;
-            margin: 6px auto;
-            padding: 0;
-            pointer-events: none;
-        }
+      .selectorButton {
+        background: #e8edee;
+        color: #003087;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        position: relative;
+      }
 
-        #selectorBar {
-            display: flex;
-            gap: 8px;
-            padding: 12px 30px;
-            justify-content: flex-start;
-        }
+      /* Selector buttons active = dark grey */
+      .selectorButton.activeButton {
+        background: #d9dfe5 !important;
+      }
 
-        .selectorButton {
-            background: #E8EDEE;
-            color: #003087;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            position: relative;
-        }
+      /* Selector buttons hover when inactive = lighter grey */
+      .selectorButton:not(.activeButton):hover {
+        background: #d9dfe5 !important;
+      }
 
-        /* Selector buttons active = dark grey */
-        .selectorButton.activeButton {
-            background: #d9dfe5 !important;
-        }
+      /* Selector buttons hover when active = stay dark grey */
+      .selectorButton.activeButton:hover {
+        background: #d9dfe5 !important;
+      }
 
-        /* Selector buttons hover when inactive = lighter grey */
-        .selectorButton:not(.activeButton):hover {
-            background: #d9dfe5 !important;
-        }
+      #loadingSpinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 20px;
+        color: #005eb8;
+        display: none;
+      }
 
-        /* Selector buttons hover when active = stay dark grey */
-        .selectorButton.activeButton:hover {
-            background: #d9dfe5 !important;
-        }
+      #timestamp {
+        font-size: 13px;
+        color: #e6e6e6;
+      }
 
+      iframe {
+        width: 95vw;
+        height: calc(100vh - 200px);
+        border: none;
+      }
 
+      /* Tracking board iframe */
+      .iframeTracking {
+        width: 95vw;
+        height: calc(100vh - 200px);
+        border: none;
+      }
 
+      /* Add Patient form iframe */
+      .iframeForm {
+        width: 100%;
+        max-width: 100%;
+        height: 1250px;
+        border: none;
+        overflow-x: hidden !important;
+      }
 
-        iframe {
-            width: 95vw;
-            height: calc(100vh - 200px);
-            border: none;
-        }
+      /* MOBILE UI */
+      #mobileContainer {
+        display: none;
+        text-align: center;
+      }
 
-        #loadingSpinner {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 20px;
-            color: #005EB8;
-            display: none;
-        }
+      .mobileMenuButton {
+        width: 90%;
+        margin: 16px auto;
+        padding: 16px;
+        background: #003087;
+        color: white;
+        font-size: 18px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+      }
 
-        #timestamp {
-            font-size: 13px;
-            color: #e6e6e6;
-        }
+      .hospitalButton {
+        width: 90%;
+        margin: 14px auto;
+        padding: 16px;
+        background: #e8edee;
+        color: #003087;
+        font-size: 18px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        justify-content: center;
+      }
 
-        .iframeTracking {
-            width: 95vw;
-            height: calc(100vh - 200px);
-            border: none;
-        }
+      .backLink {
+        margin-top: 20px;
+        display: inline-block;
+        color: #005eb8;
+        font-size: 18px;
+        cursor: pointer;
+      }
 
-        .iframeForm {
-            width: 100%;
-            height: 1250px;
-            max-width: 100%;
-            overflow-x: hidden !important;
-        }
+      /* Mobile version style for tools button */
+      .mobileVersionBox {
+        background: #e8edee;
+        color: #003087;
+        justify-content: center;
+      }
 
-        /* MOBILE UI */
-        #mobileContainer {
-            display: none;
-            text-align: center;
-        }
-
-        .mobileMenuButton {
-            width: 90%;
-            margin: 16px auto;
-            padding: 16px;
-            background: #003087;
-            color: white;
-            font-size: 18px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .hospitalButton {
-            width: 90%;
-            margin: 14px auto;
-            padding: 16px;
-            background: #E8EDEE;
-            color: #003087;
-            font-size: 18px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .backLink {
-            margin-top: 20px;
-            display: inline-block;
-            color: #005EB8;
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        /* Mobile version style for tools button */
-        .mobileVersionBox {
-            background: #E8EDEE;
-            color: #003087;
-            justify-content: center;
-        }
-        /* Prevent blue hover on mobile version box */
-        .mobileVersionBox:hover {
-            background: #E8EDEE !important;
-            color: #003087 !important;
-            cursor: pointer;
-        }
-
-
-
-
-
-
+      /* Prevent blue hover on mobile version box */
+      .mobileVersionBox:hover {
+        background: #e8edee !important;
+        color: #003087 !important;
+        cursor: pointer;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
+    <!-- NHS Header (shared by both modes) -->
+    <div id="nhsHeader">
+      <div id="nhsHeaderLeft">
+        <img src="https://assets.nhs.uk/images/nhs-logo.png" alt="NHS Logo" />
+      </div>
 
-<!-- NHS Header (shared by both modes) -->
-<div id="nhsHeader">
-    <div id="nhsHeaderLeft">
-        <img src="https://assets.nhs.uk/images/nhs-logo.png" alt="NHS Logo">
-    </div>
+      <div id="nhsHeaderCenter">ED Downtime Tracking Tool</div>
 
-    <div id="nhsHeaderCenter">ED Downtime Tracking Tool</div>
-
-    <div id="nhsHeaderRight">
+      <div id="nhsHeaderRight">
         <!-- Tools menu -->
         <div id="toolsButton" class="menuButton">
-            <span id="activeToolLabel">Tracking Board</span>
+          <span id="activeToolLabel">Tracking Board</span>
 
-            <div id="toolsMenu" class="dropdownMenu">
-                <div id="toolTracking" onclick="loadTrackingBoard()">Tracking Board</div>
-                <div id="toolAddPatient" onclick="loadForm()">Add Patient</div>
-
-                <hr class="dropdownDivider">
-
-                <div onclick="manualRefresh()">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#333" style="vertical-align: middle; margin-right: 6px;">
-                        <path d="M12 4V1L8 5l4 4V6c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6H4c0 4.4 3.6 8 8 8s8-3.6 8-8-3.6-8-8-8z"/>
-                    </svg>
-                    Refresh
-                </div>
+          <div id="toolsMenu" class="dropdownMenu">
+            <div id="toolTracking" onclick="loadTrackingBoard()">
+              Tracking Board
             </div>
+            <div id="toolAddPatient" onclick="loadForm()">Add Patient</div>
+
+            <hr class="dropdownDivider" />
+
+            <div onclick="manualRefresh()">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="#333"
+                style="vertical-align: middle; margin-right: 6px"
+              >
+                <path
+                  d="M12 4V1L8 5l4 4V6c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6H4c0 4.4 3.6 8 8 8s8-3.6 8-8-3.6-8-8-8z"
+                />
+              </svg>
+              Refresh
+            </div>
+          </div>
         </div>
 
-
         <div id="timestamp"></div>
+      </div>
     </div>
-</div>
 
-
-
-
-<!-- DESKTOP VERSION (unchanged) -->
-<div id="desktopContainer">
-
-   
-    <!-- Selector bar -->
-    <div id="selectorBar">
-
+    <!-- DESKTOP VERSION (unchanged) -->
+    <div id="desktopContainer">
+      <!-- Selector bar -->
+      <div id="selectorBar">
         <!-- Hospital selector -->
         <div id="hospitalButton" class="selectorButton">
-            <svg width="16" height="16" fill="#003087" viewBox="0 0 24 24">
-                <path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/>
-            </svg>
-            <span id="activeHospital">Tunbridge Wells</span>
+          <svg width="16" height="16" fill="#003087" viewBox="0 0 24 24">
+            <path
+              d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"
+            />
+          </svg>
+          <span id="activeHospital">Tunbridge Wells</span>
 
-            <div id="hospitalMenu" class="dropdownMenu">
-                <div onclick="selectHospital('Tunbridge Wells')">Tunbridge Wells</div>
-                <div onclick="selectHospital('Maidstone')">Maidstone</div>
+          <div id="hospitalMenu" class="dropdownMenu">
+            <div onclick="selectHospital('Tunbridge Wells')">
+              Tunbridge Wells
             </div>
+            <div onclick="selectHospital('Maidstone')">Maidstone</div>
+          </div>
         </div>
 
         <!-- Location selector -->
         <div id="locationButton" class="selectorButton">
-            <span id="activeLocation">Whole Dept</span>
+          <span id="activeLocation">Whole Dept</span>
 
-            <div id="locationMenu" class="dropdownMenu">
-                <div onclick="selectLocation('Whole Dept')">Whole Dept</div>
-                <div onclick="selectLocation('Waiting Room')">Waiting Room</div>
-                <div onclick="selectLocation('RAP')">RAP</div>
-                <div onclick="selectLocation('Resus')">Resus</div>
-                <div onclick="selectLocation('Minors')">Minors</div>
-                <div onclick="selectLocation('Majors')">Majors</div>
-                <div onclick="selectLocation('Paeds ED')">Paeds ED</div>
-                <div onclick="selectLocation('Clinics')">Clinics</div>
-                <div onclick="selectLocation('CDU')">CDU</div>
-            </div>
+          <div id="locationMenu" class="dropdownMenu">
+            <div onclick="selectLocation('Whole Dept')">Whole Dept</div>
+            <div onclick="selectLocation('Waiting Room')">Waiting Room</div>
+            <div onclick="selectLocation('RAP')">RAP</div>
+            <div onclick="selectLocation('Resus')">Resus</div>
+            <div onclick="selectLocation('Minors')">Minors</div>
+            <div onclick="selectLocation('Majors')">Majors</div>
+            <div onclick="selectLocation('Paeds ED')">Paeds ED</div>
+            <div onclick="selectLocation('Clinics')">Clinics</div>
+            <div onclick="selectLocation('CDU')">CDU</div>
+          </div>
         </div>
+      </div>
 
-    </div>
+      <div id="loadingSpinner">Loading…</div>
 
-    <div id="loadingSpinner">Loading…</div>
-
-    <div id="pageContent">
-        <iframe id="dashboardFrame"
-            src="https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_Filtered">
+      <div id="pageContent">
+        <iframe
+          id="dashboardFrame"
+          src="https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_Filtered"
+        >
         </iframe>
+      </div>
     </div>
 
-</div>
+    <!-- MOBILE VERSION -->
+    <div id="mobileContainer">
+      <div id="mobileMenu">
+        <button class="mobileMenuButton" onclick="showHospitalSelector()">
+          Tracking Board
+        </button>
+        <button class="mobileMenuButton" onclick="openForm()">
+          Add Patient
+        </button>
+      </div>
 
-<!-- MOBILE VERSION -->
-<div id="mobileContainer">
-
-    <div id="mobileMenu">
-        <button class="mobileMenuButton" onclick="showHospitalSelector()">Tracking Board</button>
-        <button class="mobileMenuButton" onclick="openForm()">Add Patient</button>
-    </div>
-
-    <div id="hospitalSelector" style="display:none;">
+      <div id="hospitalSelector" style="display: none">
         <h2>Select Hospital</h2>
 
         <button class="hospitalButton" onclick="openTW()">
-            <svg width="18" height="18" fill="#003087" viewBox="0 0 24 24">
-                <path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/>
-            </svg>
-            Tunbridge Wells
+          <svg width="18" height="18" fill="#003087" viewBox="0 0 24 24">
+            <path
+              d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"
+            />
+          </svg>
+          Tunbridge Wells
         </button>
 
         <button class="hospitalButton" onclick="/* Maidstone not ready yet */">
-            <svg width="18" height="18" fill="#003087" viewBox="0 0 24 24">
-                <path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/>
-            </svg>
-            Maidstone
+          <svg width="18" height="18" fill="#003087" viewBox="0 0 24 24">
+            <path
+              d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"
+            />
+          </svg>
+          Maidstone
         </button>
 
         <div class="backLink" onclick="goBack()">← Back</div>
+      </div>
     </div>
 
-</div>
+    <script>
+      /* MOBILE DETECTION */
+      function detectMobileMode() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("mobile") === "1") return true; // force mobile
+        if (params.get("mobile") === "0") return false; // force desktop
+        return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      }
 
-<script>
-    /* MOBILE DETECTION */
-    function detectMobileMode() {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("mobile") === "1") return true;   // force mobile
-    if (params.get("mobile") === "0") return false;  // force desktop
-    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-}
+      window.addEventListener("load", () => {
+        const mobile = detectMobileMode();
 
-window.addEventListener("load", () => {
-    const mobile = detectMobileMode();
+        const desktopContainer = document.getElementById("desktopContainer");
+        const mobileContainer = document.getElementById("mobileContainer");
+        const toolsButton = document.getElementById("toolsButton");
+        const activeToolLabel = document.getElementById("activeToolLabel");
+        const timestamp = document.getElementById("timestamp");
 
-    const desktopContainer = document.getElementById("desktopContainer");
-    const mobileContainer = document.getElementById("mobileContainer");
-    const toolsButton = document.getElementById("toolsButton");
-    const activeToolLabel = document.getElementById("activeToolLabel");
-    const timestamp = document.getElementById("timestamp");
+        if (
+          !desktopContainer ||
+          !mobileContainer ||
+          !toolsButton ||
+          !activeToolLabel ||
+          !timestamp
+        ) {
+          console.warn("One or more header elements not found");
+          return;
+        }
 
-    if (!desktopContainer || !mobileContainer || !toolsButton || !activeToolLabel || !timestamp) {
-        console.warn("One or more header elements not found");
-        return;
-    }
+        if (mobile) {
+          // Show mobile UI, hide desktop UI
+          desktopContainer.style.display = "none";
+          mobileContainer.style.display = "block";
 
-    if (mobile) {
-        // Show mobile UI, hide desktop UI
-        desktopContainer.style.display = "none";
-        mobileContainer.style.display = "block";
+          // Turn tools button into grey "Mobile Version" box
+          toolsButton.classList.add("mobileVersionBox");
 
-        // Turn tools button into grey "Mobile Version" box
-        toolsButton.classList.add("mobileVersionBox");
+          // Remove existing click handlers by cloning the node
+          const clone = toolsButton.cloneNode(true);
+          toolsButton.parentNode.replaceChild(clone, toolsButton);
 
-        // Remove existing click handlers by cloning the node
-        const clone = toolsButton.cloneNode(true);
-        toolsButton.parentNode.replaceChild(clone, toolsButton);
+          // Update label
+          const labelSpan = clone.querySelector("#activeToolLabel");
+          if (labelSpan) labelSpan.textContent = "Mobile Version";
 
-        // Update label
-        const labelSpan = clone.querySelector("#activeToolLabel");
-        if (labelSpan) labelSpan.textContent = "Mobile Version";
+          // Hide dropdown menu if present
+          const menu = clone.querySelector("#toolsMenu");
+          if (menu) menu.style.display = "none";
 
-        // Hide dropdown menu if present
-        const menu = clone.querySelector("#toolsMenu");
-        if (menu) menu.style.display = "none";
+          // Hide timestamp
+          timestamp.style.display = "none";
 
-        // Hide timestamp
-        timestamp.style.display = "none";
-
-        // Make the grey box link back to desktop mode
-        clone.onclick = () => {
+          // Make the grey box link back to desktop mode
+          clone.onclick = () => {
             const url = new URL(window.location.href);
             url.searchParams.set("mobile", "0");
             window.location.href = url.toString();
-        };
+          };
+        } else {
+          // Desktop mode
+          desktopContainer.style.display = "block";
+          mobileContainer.style.display = "none";
+          // Everything else behaves as in your original version
+        }
+      });
 
-    } else {
-        // Desktop mode
-        desktopContainer.style.display = "block";
-        mobileContainer.style.display = "none";
-        // Everything else behaves as in your original version
-    }
-});
-
-
-
-    /* MOBILE FUNCTIONS */
-    function showHospitalSelector() {
+      /* MOBILE FUNCTIONS */
+      function showHospitalSelector() {
         document.getElementById("mobileMenu").style.display = "none";
         document.getElementById("hospitalSelector").style.display = "block";
-    }
+      }
 
-    function goBack() {
+      function goBack() {
         document.getElementById("hospitalSelector").style.display = "none";
         document.getElementById("mobileMenu").style.display = "block";
-    }
+      }
 
-    function openTW() {
+      function openTW() {
         window.location.href =
-            "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_Filtered";
-    }
+          "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_Filtered";
+      }
 
-    function openForm() {
+      function openForm() {
         window.location.href =
-            "https://forms.office.com/Pages/ResponsePage.aspx?id=slTDN7CF9UeyIge0jXdO4-gZCzn4LxVOhNz2gCIcK5JUNlJDTjlEVDk1SEhHMVFPTVowNTJGNzVOTC4u&embed=true";
-    }
+          "https://forms.office.com/Pages/ResponsePage.aspx?id=slTDN7CF9UeyIge0jXdO4-gZCzn4LxVOhNz2gCIcK5JUNlJDTjlEVDk1SEhHMVFPTVowNTJGNzVOTC4u&embed=true";
+      }
 
-    /* DESKTOP SCRIPT (unchanged) */
-    const iframe = document.getElementById("dashboardFrame");
-    const timestamp = document.getElementById("timestamp");
-    const loadingSpinner = document.getElementById("loadingSpinner");
-    const selectorBar = document.getElementById("selectorBar");
-    const activeToolLabel = document.getElementById("activeToolLabel");
+      /* DESKTOP SCRIPT (unchanged) */
+      const iframe = document.getElementById("dashboardFrame");
+      const timestamp = document.getElementById("timestamp");
+      const loadingSpinner = document.getElementById("loadingSpinner");
+      const selectorBar = document.getElementById("selectorBar");
+      const activeToolLabel = document.getElementById("activeToolLabel");
 
-    const toolTracking = document.getElementById("toolTracking");
-    const toolAddPatient = document.getElementById("toolAddPatient");
+      const toolTracking = document.getElementById("toolTracking");
+      const toolAddPatient = document.getElementById("toolAddPatient");
 
-    const toolsButton = document.getElementById("toolsButton");
-    const toolsMenu = document.getElementById("toolsMenu");
+      const toolsButton = document.getElementById("toolsButton");
+      const toolsMenu = document.getElementById("toolsMenu");
 
-    const hospitalButton = document.getElementById("hospitalButton");
-    const hospitalMenu = document.getElementById("hospitalMenu");
-    const activeHospital = document.getElementById("activeHospital");
+      const hospitalButton = document.getElementById("hospitalButton");
+      const hospitalMenu = document.getElementById("hospitalMenu");
+      const activeHospital = document.getElementById("activeHospital");
 
-    const locationButton = document.getElementById("locationButton");
-    const locationMenu = document.getElementById("locationMenu");
-    const activeLocation = document.getElementById("activeLocation");
+      const locationButton = document.getElementById("locationButton");
+      const locationMenu = document.getElementById("locationMenu");
+      const activeLocation = document.getElementById("activeLocation");
 
-    /* ⭐ DEFAULT SELECTIONS ON PAGE LOAD ⭐ */
-    window.addEventListener("DOMContentLoaded", () => {
+      /* ⭐ DEFAULT SELECTIONS ON PAGE LOAD ⭐ */
+      window.addEventListener("DOMContentLoaded", () => {
         // Default tool
         toolTracking.classList.add("selectedItem");
         activeToolLabel.textContent = "Tracking Board";
 
         // Default hospital (Tunbridge Wells = first item)
-        hospitalMenu.querySelector("div:nth-child(1)").classList.add("selectedItem");
+        hospitalMenu
+          .querySelector("div:nth-child(1)")
+          .classList.add("selectedItem");
         activeHospital.textContent = "Tunbridge Wells";
 
         // Default location (Whole Dept = first item)
-        locationMenu.querySelector("div:nth-child(1)").classList.add("selectedItem");
+        locationMenu
+          .querySelector("div:nth-child(1)")
+          .classList.add("selectedItem");
         activeLocation.textContent = "Whole Dept";
-    });
+      });
 
-    toolsButton.addEventListener("click", () => {
+      toolsButton.addEventListener("click", () => {
         const isOpen = toolsMenu.style.display === "block";
         toolsMenu.style.display = isOpen ? "none" : "block";
         hospitalMenu.style.display = "none";
@@ -504,12 +516,9 @@ window.addEventListener("load", () => {
         // CRITICAL FIX
         hospitalButton.classList.remove("activeButton");
         locationButton.classList.remove("activeButton");
-    });
+      });
 
-
-
-
-    hospitalButton.addEventListener("click", () => {
+      hospitalButton.addEventListener("click", () => {
         const isOpen = hospitalMenu.style.display === "block";
         hospitalMenu.style.display = isOpen ? "none" : "block";
         toolsMenu.style.display = "none";
@@ -518,13 +527,9 @@ window.addEventListener("load", () => {
         hospitalButton.classList.toggle("activeButton", !isOpen);
         toolsButton.classList.remove("activeButton");
         locationButton.classList.remove("activeButton");
-    });
+      });
 
-
-
-
-
-    locationButton.addEventListener("click", () => {
+      locationButton.addEventListener("click", () => {
         const isOpen = locationMenu.style.display === "block";
         locationMenu.style.display = isOpen ? "none" : "block";
         toolsMenu.style.display = "none";
@@ -533,30 +538,28 @@ window.addEventListener("load", () => {
         locationButton.classList.toggle("activeButton", !isOpen);
         toolsButton.classList.remove("activeButton");
         hospitalButton.classList.remove("activeButton");
-    });
+      });
 
-
-
-
-
-    document.addEventListener("click", (e) => {
+      document.addEventListener("click", (e) => {
         if (!toolsButton.contains(e.target)) toolsMenu.style.display = "none";
-        if (!hospitalButton.contains(e.target)) hospitalMenu.style.display = "none";
-        if (!locationButton.contains(e.target)) locationMenu.style.display = "none";
-    });
+        if (!hospitalButton.contains(e.target))
+          hospitalMenu.style.display = "none";
+        if (!locationButton.contains(e.target))
+          locationMenu.style.display = "none";
+      });
 
-    iframe.onload = () => {
+      iframe.onload = () => {
         loadingSpinner.style.display = "none";
         updateTimestamp();
-    };
+      };
 
-    function highlightTool(tool) {
+      function highlightTool(tool) {
         toolTracking.classList.remove("selectedItem");
         toolAddPatient.classList.remove("selectedItem");
         tool.classList.add("selectedItem");
-    }
+      }
 
-    function loadTrackingBoard() {
+      function loadTrackingBoard() {
         activeToolLabel.textContent = "Tracking Board";
         selectorBar.style.display = "flex";
         loadingSpinner.style.display = "block";
@@ -564,12 +567,12 @@ window.addEventListener("load", () => {
         highlightTool(toolTracking);
 
         iframe.src =
-            "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_Filtered";
+          "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_Filtered";
         iframe.classList.remove("iframeForm");
         iframe.classList.add("iframeTracking");
-    }
+      }
 
-    function loadForm() {
+      function loadForm() {
         activeToolLabel.textContent = "Add Patient";
         selectorBar.style.display = "none";
         loadingSpinner.style.display = "block";
@@ -577,45 +580,47 @@ window.addEventListener("load", () => {
         highlightTool(toolAddPatient);
 
         iframe.src =
-            "https://forms.office.com/Pages/ResponsePage.aspx?id=slTDN7CF9UeyIge0jXdO4-gZCzn4LxVOhNz2gCIcK5JUNlJDTjlEVDk1SEhHMVFPTVowNTJGNzVOTC4u&embed=true";
+          "https://forms.office.com/Pages/ResponsePage.aspx?id=slTDN7CF9UeyIge0jXdO4-gZCzn4LxVOhNz2gCIcK5JUNlJDTjlEVDk1SEhHMVFPTVowNTJGNzVOTC4u&embed=true";
         iframe.classList.remove("iframeTracking");
         iframe.classList.add("iframeForm");
-    }
+      }
 
-    function selectHospital(name) {
+      function selectHospital(name) {
         activeHospital.textContent = name;
         hospitalMenu.style.display = "none";
-    }
+      }
 
-    function selectLocation(name) {
+      function selectLocation(name) {
         activeLocation.textContent = name;
         locationMenu.style.display = "none";
-    }
+      }
 
-    function manualRefresh() {
+      function manualRefresh() {
         if (activeToolLabel.textContent !== "Tracking Board") return;
 
         loadingSpinner.style.display = "block";
         const base = iframe.src.split("?")[0];
         const params = iframe.src.split("?")[1];
         iframe.src = base + "?" + params + "&manual=" + new Date().getTime();
-    }
+      }
 
-    setInterval(() => {
+      setInterval(() => {
         if (activeToolLabel.textContent !== "Tracking Board") return;
 
         loadingSpinner.style.display = "block";
         const base = iframe.src.split("?")[0];
         const params = iframe.src.split("?")[1];
         iframe.src = base + "?" + params + "&auto=" + new Date().getTime();
-    }, 300000);
+      }, 300000);
 
-    function updateTimestamp() {
+      function updateTimestamp() {
         timestamp.textContent =
-            "Last refreshed at " +
-            new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-    }
-</script>
-
-</body>
+          "Last refreshed at " +
+          new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+      }
+    </script>
+  </body>
 </html>
