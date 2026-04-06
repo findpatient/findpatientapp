@@ -116,10 +116,6 @@
             justify-content: flex-start;
         }
 
-        #selectorBar.hidden {
-            display: none !important;
-        }
-
         /* Grey selector buttons */
         .selectorButton {
             background: #E8EDEE;
@@ -238,19 +234,17 @@
 <div id="loadingSpinner">Loading…</div>
 
 <div id="pageContent">
-    <iframe 
-        id="dashboardFrame"
-        src=""
-        style="width: 100%; height: calc(100vh - 0px); border: none;">
+    <iframe id="dashboardFrame"
+        src="https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_Filtered">
     </iframe>
 </div>
-
 
 <script>
     const iframe = document.getElementById("dashboardFrame");
     const timestamp = document.getElementById("timestamp");
     const loadingSpinner = document.getElementById("loadingSpinner");
     const selectorBar = document.getElementById("selectorBar");
+    const activeToolLabel = document.getElementById("activeToolLabel");
 
     const toolTracking = document.getElementById("toolTracking");
     const toolAddPatient = document.getElementById("toolAddPatient");
@@ -266,7 +260,9 @@
     const locationMenu = document.getElementById("locationMenu");
     const activeLocation = document.getElementById("activeLocation");
 
-    /* DROPDOWNS */
+    /* -------------------------
+       DROPDOWN TOGGLING
+    -------------------------- */
 
     toolsButton.addEventListener("click", () => {
         toolsMenu.style.display = toolsMenu.style.display === "block" ? "none" : "block";
@@ -292,7 +288,9 @@
         if (!locationButton.contains(e.target)) locationMenu.style.display = "none";
     });
 
-    /* TOOL LOADING */
+    /* -------------------------
+       TRACKING BOARD / FORM
+    -------------------------- */
 
     iframe.onload = () => {
         loadingSpinner.style.display = "none";
@@ -306,41 +304,48 @@
     }
 
     function loadTrackingBoard() {
+        activeToolLabel.textContent = "Tracking Board";
+        selectorBar.style.display = "flex";
         loadingSpinner.style.display = "block";
-        iframe.style.display = "none";
-
-        selectorBar.classList.remove("hidden");
-
-        iframe.src = "YOUR_TRACKING_BOARD_URL_HERE";
-
-        iframe.onload = () => {
-            loadingSpinner.style.display = "none";
-            iframe.style.display = "block";
-            updateTimestamp();
-        };
 
         highlightTool(toolTracking);
+
+        iframe.src =
+            "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_Filtered";
     }
 
     function loadForm() {
-        loadingSpinner.style.display = "block";
-        iframe.style.display = "none";
+    activeToolLabel.textContent = "Add Patient";
+    selectorBar.style.display = "none";
+    loadingSpinner.style.display = "block";
 
-        selectorBar.classList.add("hidden");
+    highlightTool(toolAddPatient);
 
-        iframe.src = "YOUR_FORM_URL_HERE";
+    iframe.src = "https://forms.office.com/Pages/ResponsePage.aspx?id=slTDN7CF9UeyIge0jXdO4-gZCzn4LxVOhNz2gCIcK5JUNlJDTjlEVDk1SEhHMVFPTVowNTJGNzVOTC4u&embed=true";
+}
 
-        iframe.onload = () => {
-            loadingSpinner.style.display = "none";
-            iframe.style.display = "block";
-        };
 
-        highlightTool(toolAddPatient);
+    /* -------------------------
+       HOSPITAL + LOCATION
+    -------------------------- */
+
+    function selectHospital(name) {
+        activeHospital.textContent = name;
+        hospitalMenu.style.display = "none";
     }
 
-    /* REFRESH */
+    function selectLocation(name) {
+        activeLocation.textContent = name;
+        locationMenu.style.display = "none";
+    }
+
+    /* -------------------------
+       REFRESH LOGIC
+    -------------------------- */
 
     function manualRefresh() {
+        if (activeToolLabel.textContent !== "Tracking Board") return;
+
         loadingSpinner.style.display = "block";
         const base = iframe.src.split("?")[0];
         const params = iframe.src.split("?")[1];
@@ -348,6 +353,8 @@
     }
 
     setInterval(() => {
+        if (activeToolLabel.textContent !== "Tracking Board") return;
+
         loadingSpinner.style.display = "block";
         const base = iframe.src.split("?")[0];
         const params = iframe.src.split("?")[1];
@@ -359,10 +366,7 @@
             "Last refreshed at " +
             new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     }
-
-    window.onload = loadTrackingBoard;
 </script>
-
 
 </body>
 </html>
