@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ED Downtime Tracking Board</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #ffffff;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        /* NHS Header Bar */
+        #nhsHeader {
+            background: #005EB8;
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        #nhsHeaderLeft img {
+            height: 40px;
+        }
+
+        #nhsHeaderCenter {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: 600;
+            pointer-events: none;
+        }
+
+        #nhsHeaderRight {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+        }
+
+        /* Tools menu button (blue) */
+        .menuButton {
+            background: #003087;
+            padding: 6px 14px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            position: relative;
+            white-space: nowrap;
+            width: 110px;
+            justify-content: center;
+        }
+
+        .menuButton:hover {
+            background: #00246d;
+        }
+
+        .menuButton span {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* Dropdown menu */
+        .dropdownMenu {
+            display: none;
+            position: absolute;
+            top: 42px;
+            left: 0;
+            background: white;
+            color: #333;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            min-width: 160px;
+            text-align: left;
+            z-index: 10;
+        }
+
+        .dropdownMenu div {
+            padding: 10px 14px;
+            cursor: pointer;
+        }
+
+        .dropdownMenu div:hover {
+            background: #f2f2f2;
+        }
+
+        /* Selected highlight */
+        .selectedItem {
+            background: #e6f0fa !important;
+            color: #005EB8 !important;
+            font-weight: 600;
+        }
+
+        /* Thin floating divider */
+        .dropdownDivider {
+            border: none;
+            height: 1px;
+            background: #d0d0d0;
+            width: 80%;
+            margin: 6px auto;
+            padding: 0;
+            pointer-events: none;
+        }
+
+        /* Selector bar under header */
+        #selectorBar {
+            display: flex;
+            gap: 8px;
+            padding: 12px 30px;
+            justify-content: flex-start;
+        }
+
+        /* Grey selector buttons */
+        .selectorButton {
+            background: #E8EDEE;
+            color: #003087;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+        }
+
+        .selectorButton:hover {
+            background: #d9dfe5;
+        }
+
+        iframe {
+            width: 95vw;
+            height: calc(100vh - 200px);
+            border: none;
+        }
+
+        #loadingSpinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            color: #005EB8;
+            display: none;
+        }
+
+        #timestamp {
+            font-size: 13px;
+            color: #e6e6e6;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NHS Header -->
+<div id="nhsHeader">
+
+    <div id="nhsHeaderLeft">
+        <img src="https://assets.nhs.uk/images/nhs-logo.png" alt="NHS Logo">
+    </div>
+
+    <div id="nhsHeaderCenter">ED Downtime Tracking Board</div>
+
+    <div id="nhsHeaderRight">
+
+        <!-- Tools menu -->
+        <div id="toolsButton" class="menuButton">
+            <span id="activeToolLabel">Tracking Board</span>
+
+            <div id="toolsMenu" class="dropdownMenu">
+                <div id="toolTracking" onclick="loadTrackingBoard()">Tracking Board</div>
+                <div id="toolAddPatient" onclick="loadForm()">Add Patient</div>
+
+                <hr class="dropdownDivider">
+
+                <div onclick="manualRefresh()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#333" style="vertical-align: middle; margin-right: 6px;">
+                        <path d="M12 4V1L8 5l4 4V6c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6H4c0 4.4 3.6 8 8 8s8-3.6 8-8-3.6-8-8-8z"/>
+                    </svg>
+                    Refresh
+                </div>
+            </div>
+        </div>
+
+        <div id="timestamp"></div>
+
+    </div>
+
+</div>
+
+<!-- Selector bar -->
+<div id="selectorBar">
+
+    <!-- Hospital selector -->
+    <div id="hospitalButton" class="selectorButton">
+        <svg width="16" height="16" fill="#003087" viewBox="0 0 24 24">
+            <path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/>
+        </svg>
+        <span id="activeHospital">Tunbridge Wells</span>
+
+        <div id="hospitalMenu" class="dropdownMenu">
+            <div onclick="selectHospital('Tunbridge Wells')">Tunbridge Wells</div>
+            <div onclick="selectHospital('Maidstone')">Maidstone</div>
+        </div>
+    </div>
+
+    <!-- Location selector -->
+    <div id="locationButton" class="selectorButton">
+        <span id="activeLocation">Whole Dept</span>
+
+        <div id="locationMenu" class="dropdownMenu">
+            <div onclick="selectLocation('Whole Dept')">Whole Dept</div>
+            <div onclick="selectLocation('Waiting Room')">Waiting Room</div>
+            <div onclick="selectLocation('RAP')">RAP</div>
+            <div onclick="selectLocation('Resus')">Resus</div>
+            <div onclick="selectLocation('Minors')">Minors</div>
+            <div onclick="selectLocation('Majors')">Majors</div>
+            <div onclick="selectLocation('Paeds ED')">Paeds ED</div>
+            <div onclick="selectLocation('Clinics')">Clinics</div>
+            <div onclick="selectLocation('CDU')">CDU</div>
+        </div>
+    </div>
+
+</div>
+
+<div id="loadingSpinner">Loading…</div>
+
+<div id="pageContent">
+    <iframe id="dashboardFrame"
+        src="https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_Filtered">
+    </iframe>
+</div>
+
+<script>
+    const iframe = document.getElementById("dashboardFrame");
+    const timestamp = document.getElementById("timestamp");
+    const loadingSpinner = document.getElementById("loadingSpinner");
+    const selectorBar = document.getElementById("selectorBar");
+    const activeToolLabel = document.getElementById("activeToolLabel");
+
+    const toolTracking = document.getElementById("toolTracking");
+    const toolAddPatient = document.getElementById("toolAddPatient");
+
+    const toolsButton = document.getElementById("toolsButton");
+    const toolsMenu = document.getElementById("toolsMenu");
+
+    const hospitalButton = document.getElementById("hospitalButton");
+    const hospitalMenu = document.getElementById("hospitalMenu");
+    const activeHospital = document.getElementById("activeHospital");
+
+    const locationButton = document.getElementById("locationButton");
+    const locationMenu = document.getElementById("locationMenu");
+    const activeLocation = document.getElementById("activeLocation");
+
+    /* -------------------------
+       DROPDOWN TOGGLING
+    -------------------------- */
+
+    toolsButton.addEventListener("click", () => {
+        toolsMenu.style.display = toolsMenu.style.display === "block" ? "none" : "block";
+        hospitalMenu.style.display = "none";
+        locationMenu.style.display = "none";
+    });
+
+    hospitalButton.addEventListener("click", () => {
+        hospitalMenu.style.display = hospitalMenu.style.display === "block" ? "none" : "block";
+        toolsMenu.style.display = "none";
+        locationMenu.style.display = "none";
+    });
+
+    locationButton.addEventListener("click", () => {
+        locationMenu.style.display = locationMenu.style.display === "block" ? "none" : "block";
+        toolsMenu.style.display = "none";
+        hospitalMenu.style.display = "none";
+    });
+
+    document.addEventListener("click", (e) => {
+        if (!toolsButton.contains(e.target)) toolsMenu.style.display = "none";
+        if (!hospitalButton.contains(e.target)) hospitalMenu.style.display = "none";
+        if (!locationButton.contains(e.target)) locationMenu.style.display = "none";
+    });
+
+    /* -------------------------
+       TRACKING BOARD / FORM
+    -------------------------- */
+
+    iframe.onload = () => {
+        loadingSpinner.style.display = "none";
+        updateTimestamp();
+    };
+
+    function highlightTool(tool) {
+        toolTracking.classList.remove("selectedItem");
+        toolAddPatient.classList.remove("selectedItem");
+        tool.classList.add("selectedItem");
+    }
+
+    function loadTrackingBoard() {
+        activeToolLabel.textContent = "Tracking Board";
+        selectorBar.style.display = "flex";
+        loadingSpinner.style.display = "block";
+
+        highlightTool(toolTracking);
+
+        iframe.src =
+            "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_Filtered";
+    }
+
+    function loadForm() {
+        activeToolLabel.textContent = "Add Patient";
+        selectorBar.style.display = "none";
+        loadingSpinner.style.display = "block";
+
+        highlightTool(toolAddPatient);
+
+        iframe.src = "https://www.bbc.co.uk"
+;
+
+    }
+
+    /* -------------------------
+       HOSPITAL + LOCATION
+    -------------------------- */
+
+    function selectHospital(name) {
+        activeHospital.textContent = name;
+        hospitalMenu.style.display = "none";
+    }
+
+    function selectLocation(name) {
+        activeLocation.textContent = name;
+        locationMenu.style.display = "none";
+    }
+
+    /* -------------------------
+       REFRESH LOGIC
+    -------------------------- */
+
+    function manualRefresh() {
+        if (activeToolLabel.textContent !== "Tracking Board") return;
+
+        loadingSpinner.style.display = "block";
+        const base = iframe.src.split("?")[0];
+        const params = iframe.src.split("?")[1];
+        iframe.src = base + "?" + params + "&manual=" + new Date().getTime();
+    }
+
+    setInterval(() => {
+        if (activeToolLabel.textContent !== "Tracking Board") return;
+
+        loadingSpinner.style.display = "block";
+        const base = iframe.src.split("?")[0];
+        const params = iframe.src.split("?")[1];
+        iframe.src = base + "?" + params + "&auto=" + new Date().getTime();
+    }, 300000);
+
+    function updateTimestamp() {
+        timestamp.textContent =
+            "Last refreshed at " +
+            new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    }
+</script>
+
+</body>
+</html>
