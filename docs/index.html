@@ -249,7 +249,6 @@
     const timestamp = document.getElementById("timestamp");
     const loadingSpinner = document.getElementById("loadingSpinner");
     const selectorBar = document.getElementById("selectorBar");
-    const activeToolLabel = document.getElementById("activeToolLabel");
 
     const toolTracking = document.getElementById("toolTracking");
     const toolAddPatient = document.getElementById("toolAddPatient");
@@ -312,7 +311,7 @@
         loadingSpinner.style.display = "block";
         iframe.style.display = "none";
 
-        selectorBar.classList.remove("hidden"); // show selector bar
+        selectorBar.classList.remove("hidden");
 
         iframe.src = "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_Filtered";
 
@@ -329,7 +328,7 @@
         loadingSpinner.style.display = "block";
         iframe.style.display = "none";
 
-        selectorBar.classList.add("hidden"); // hide selector bar
+        selectorBar.classList.add("hidden");
 
         iframe.src = "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=slTDN7CF9UeyIge0jXdO4-gZCzn4LxVOhNz2gCIcK5JUNlJDTjlEVDk1SEhHMVFPTVowNTJGNzVOTC4u&embed=true";
 
