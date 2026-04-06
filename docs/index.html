@@ -264,9 +264,7 @@
     const locationMenu = document.getElementById("locationMenu");
     const activeLocation = document.getElementById("activeLocation");
 
-    /* -------------------------
-       DROPDOWN TOGGLING
-    -------------------------- */
+    /* DROPDOWNS */
 
     toolsButton.addEventListener("click", () => {
         toolsMenu.style.display = toolsMenu.style.display === "block" ? "none" : "block";
@@ -292,9 +290,7 @@
         if (!locationButton.contains(e.target)) locationMenu.style.display = "none";
     });
 
-    /* -------------------------
-       TRACKING BOARD / FORM
-    -------------------------- */
+    /* TOOL LOADING */
 
     iframe.onload = () => {
         loadingSpinner.style.display = "none";
@@ -313,7 +309,7 @@
 
         selectorBar.classList.remove("hidden");
 
-        iframe.src = "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_Filtered";
+        iframe.src = "YOUR_TRACKING_BOARD_URL_HERE";
 
         iframe.onload = () => {
             loadingSpinner.style.display = "none";
@@ -330,7 +326,7 @@
 
         selectorBar.classList.add("hidden");
 
-        iframe.src = "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=slTDN7CF9UeyIge0jXdO4-gZCzn4LxVOhNz2gCIcK5JUNlJDTjlEVDk1SEhHMVFPTVowNTJGNzVOTC4u&embed=true";
+        iframe.src = "YOUR_FORM_URL_HERE";
 
         iframe.onload = () => {
             loadingSpinner.style.display = "none";
@@ -340,23 +336,7 @@
         highlightTool(toolAddPatient);
     }
 
-    /* -------------------------
-       HOSPITAL + LOCATION
-    -------------------------- */
-
-    function selectHospital(name) {
-        activeHospital.textContent = name;
-        hospitalMenu.style.display = "none";
-    }
-
-    function selectLocation(name) {
-        activeLocation.textContent = name;
-        locationMenu.style.display = "none";
-    }
-
-    /* -------------------------
-       REFRESH LOGIC
-    -------------------------- */
+    /* REFRESH */
 
     function manualRefresh() {
         loadingSpinner.style.display = "block";
@@ -380,6 +360,7 @@
 
     window.onload = loadTrackingBoard;
 </script>
+
 
 </body>
 </html>
