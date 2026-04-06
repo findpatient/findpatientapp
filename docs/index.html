@@ -245,8 +245,6 @@
 </div>
 
 <script>
-    src="script.js?v=3"
-    
     const iframe = document.getElementById("dashboardFrame");
     const timestamp = document.getElementById("timestamp");
     const loadingSpinner = document.getElementById("loadingSpinner");
@@ -362,8 +360,6 @@
     -------------------------- */
 
     function manualRefresh() {
-        if (activeToolLabel.textContent !== "Tracking Board") return;
-
         loadingSpinner.style.display = "block";
         const base = iframe.src.split("?")[0];
         const params = iframe.src.split("?")[1];
@@ -371,8 +367,6 @@
     }
 
     setInterval(() => {
-        if (activeToolLabel.textContent !== "Tracking Board") return;
-
         loadingSpinner.style.display = "block";
         const base = iframe.src.split("?")[0];
         const params = iframe.src.split("?")[1];
