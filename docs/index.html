@@ -155,6 +155,18 @@
             font-size: 13px;
             color: #e6e6e6;
         }
+
+        .iframeTracking {
+            width: 95vw;
+            height: calc(100vh - 200px);
+            border: none;
+        }
+
+        .iframeForm {
+            width: 100vw;
+            height: 1250px; /* or auto, or a value you prefer */
+            border: none;
+        }
     </style>
 </head>
 
@@ -310,19 +322,22 @@
 
         highlightTool(toolTracking);
 
-        iframe.src =
-            "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_Filtered";
+        iframe.src = "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_Filtered";
+        iframe.classList.remove("iframeForm");
+        iframe.classList.add("iframeTracking");
     }
 
     function loadForm() {
-    activeToolLabel.textContent = "Add Patient";
-    selectorBar.style.display = "none";
-    loadingSpinner.style.display = "block";
+        activeToolLabel.textContent = "Add Patient";
+        selectorBar.style.display = "none";
+        loadingSpinner.style.display = "block";
 
-    highlightTool(toolAddPatient);
+        highlightTool(toolAddPatient);
 
-    iframe.src = "https://forms.office.com/Pages/ResponsePage.aspx?id=slTDN7CF9UeyIge0jXdO4-gZCzn4LxVOhNz2gCIcK5JUNlJDTjlEVDk1SEhHMVFPTVowNTJGNzVOTC4u&embed=true";
-}
+        iframe.src = "https://forms.office.com/Pages/ResponsePage.aspx?id=slTDN7CF9UeyIge0jXdO4-gZCzn4LxVOhNz2gCIcK5JUNlJDTjlEVDk1SEhHMVFPTVowNTJGNzVOTC4u&embed=true";
+        iframe.classList.remove("iframeTracking");
+        iframe.classList.add("iframeForm");
+    }
 
 
     /* -------------------------
