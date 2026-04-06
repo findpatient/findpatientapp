@@ -44,9 +44,10 @@
             gap: 4px;
         }
 
-        /* Tools menu button (blue) */
+        /* Default Tools button (desktop) — match mobile version */
         .menuButton {
-            background: #003087;
+            background: #E8EDEE;
+            color: #003087;
             padding: 6px 14px;
             border-radius: 4px;
             display: inline-flex;
@@ -59,9 +60,17 @@
             justify-content: center;
         }
 
-        .menuButton:hover {
-            background: #00246d;
+        /* Hover (inactive) */
+        .menuButton:not(.activeButton):hover {
+            background: #d9dfe5 !important;
         }
+
+        /* Active Tools button (menu open) */
+        .menuButton.activeButton {
+            background: #d9dfe5 !important;
+            color: #003087 !important;
+        }
+
 
         .menuButton span {
             font-size: 16px;
@@ -130,11 +139,6 @@
             align-items: center;
             gap: 6px;
             position: relative;
-        }
-
-        /* Tools button active = dark blue */
-        .menuButton.activeButton {
-            background: #00246d !important;
         }
 
         /* Selector buttons active = dark grey */
