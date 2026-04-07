@@ -6,79 +6,78 @@
    1. NHS COLOUR VARIABLES
    ------------------------------ */
 :root {
-    --nhs-blue: #005eb8;
-    --nhs-dark-blue: #003087;
-    --nhs-grey-light: #e8edee;
-    --nhs-grey-mid: #d9dfe5;
-    --nhs-grey-divider: #d0d0d0;
-    --text-dark: #333;
+  --nhs-blue: #005eb8;
+  --nhs-dark-blue: #003087;
+  --nhs-grey-light: #e8edee;
+  --nhs-grey-mid: #d9dfe5;
+  --nhs-grey-divider: #d0d0d0;
+  --text-dark: #333;
 }
 
 /* ------------------------------
    2. GLOBAL BASE STYLES
    ------------------------------ */
 body {
-    font-family: "Segoe UI", Arial, sans-serif;
-    background: #ffffff;
-    margin: 0;
-    padding: 0;
-    text-align: center;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #ffffff;
+  margin: 0;
+  padding: 0;
+  text-align: center;
 }
 
 /* ------------------------------
    3. NHS HEADER BAR
    ------------------------------ */
 #nhsHeader {
-    background: var(--nhs-blue);
-    color: white;
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
+  background: var(--nhs-blue);
+  color: white;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
 }
 
 #nhsHeaderLeft img {
-    height: 40px;
+  height: 40px;
 }
 
 #nhsHeaderCenter {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 24px;
-    font-weight: 600;
-    pointer-events: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 24px;
+  font-weight: 600;
+  pointer-events: none;
 }
 
 #nhsHeaderRight {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
 }
 
 /* Mobile header layout */
 #mobileHeaderTitle {
-    display: none;
-    font-size: 24px;
-    font-weight: 600;
-    margin: 12px 0;
-    color: var(--nhs-dark-blue);
+  display: none;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 12px 0;
+  color: var(--nhs-dark-blue);
 }
 
 /* Fix overlapping header elements on mobile */
 @media (max-width: 600px) {
+  /* Hide the centred desktop title */
+  #nhsHeaderCenter {
+    display: none;
+  }
 
-    /* Hide the centred desktop title */
-    #nhsHeaderCenter {
-        display: none;
-    }
-
-    /* Show the mobile title */
-    #mobileHeaderTitle {
-        display: block;
-    }
+  /* Show the mobile title */
+  #mobileHeaderTitle {
+    display: block;
+  }
 }
 
 /* ------------------------------
@@ -89,124 +88,124 @@ button,
 input[type="button"],
 input[type="submit"],
 .hospitalButton {
-    border: none !important;
-    outline: none !important;
-    -webkit-appearance: none;
-    appearance: none;
-    background-clip: padding-box;
+  border: none !important;
+  outline: none !important;
+  -webkit-appearance: none;
+  appearance: none;
+  background-clip: padding-box;
 }
 
 /* ------------------------------
    5. DESKTOP BUTTONS + MENUS
    ------------------------------ */
 .menuButton {
-    background: var(--nhs-grey-light);
-    color: var(--nhs-dark-blue);
-    padding: 6px 14px;
-    border-radius: 4px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    position: relative;
-    white-space: nowrap;
-    width: 110px;
-    justify-content: center;
+  background: var(--nhs-grey-light);
+  color: var(--nhs-dark-blue);
+  padding: 6px 14px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+  width: 110px;
+  justify-content: center;
 }
 
 .menuButton:not(.activeButton):hover {
-    background: var(--nhs-grey-mid) !important;
+  background: var(--nhs-grey-mid) !important;
 }
 
 .menuButton.activeButton {
-    background: var(--nhs-grey-mid) !important;
-    color: var(--nhs-dark-blue) !important;
+  background: var(--nhs-grey-mid) !important;
+  color: var(--nhs-dark-blue) !important;
 }
 
 .dropdownMenu {
-    display: none;
-    position: absolute;
-    top: 42px;
-    left: 0;
-    background: white;
-    color: var(--text-dark);
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    min-width: 160px;
-    text-align: left;
-    z-index: 10;
+  display: none;
+  position: absolute;
+  top: 42px;
+  left: 0;
+  background: white;
+  color: var(--text-dark);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  min-width: 160px;
+  text-align: left;
+  z-index: 10;
 }
 
 .dropdownMenu div {
-    padding: 10px 14px;
-    border-left: 3px solid transparent;
-    cursor: pointer;
+  padding: 10px 14px;
+  border-left: 3px solid transparent;
+  cursor: pointer;
 }
 
 .dropdownMenu div:hover {
-    background: #e6f0fa;
-    border-left: 3px solid var(--nhs-blue);
+  background: #e6f0fa;
+  border-left: 3px solid var(--nhs-blue);
 }
 
 .dropdownDivider {
-    border: none;
-    height: 1px;
-    background: var(--nhs-grey-divider);
-    width: 80%;
-    margin: 6px auto;
+  border: none;
+  height: 1px;
+  background: var(--nhs-grey-divider);
+  width: 80%;
+  margin: 6px auto;
 }
 
 .selectedItem {
-    background: #e6f0fa !important;
-    color: var(--nhs-blue) !important;
-    font-weight: 600;
+  background: #e6f0fa !important;
+  color: var(--nhs-blue) !important;
+  font-weight: 600;
 }
 
 /* ------------------------------
    6. SELECTOR BAR
    ------------------------------ */
 #selectorBar {
-    display: flex;
-    gap: 8px;
-    padding: 12px 30px;
-    justify-content: flex-start;
+  display: flex;
+  gap: 8px;
+  padding: 12px 30px;
+  justify-content: flex-start;
 }
 
 .selectorButton {
-    background: var(--nhs-grey-light);
-    color: var(--nhs-dark-blue);
-    padding: 6px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    position: relative;
+  background: var(--nhs-grey-light);
+  color: var(--nhs-dark-blue);
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
 }
 
 .selectorButton.activeButton,
 .selectorButton:not(.activeButton):hover {
-    background: var(--nhs-grey-mid) !important;
+  background: var(--nhs-grey-mid) !important;
 }
 
 /* ------------------------------
    7. TIMESTAMP + LOADING SPINNER
    ------------------------------ */
 #timestamp {
-    font-size: 13px;
-    color: #e6e6e6;
+  font-size: 13px;
+  color: #e6e6e6;
 }
 
 #loadingSpinner {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 20px;
-    color: var(--nhs-blue);
-    display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  color: var(--nhs-blue);
+  display: none;
 }
 
 /* ------------------------------
@@ -214,58 +213,58 @@ input[type="submit"],
    ------------------------------ */
 iframe,
 .iframeTracking {
-    width: 95vw;
-    height: calc(100vh - 200px);
-    border: none;
+  width: 95vw;
+  height: calc(100vh - 200px);
+  border: none;
 }
 
 .iframeForm {
-    width: 100%;
-    max-width: 100%;
-    height: 1250px;
-    border: none;
-    overflow-x: hidden !important;
+  width: 100%;
+  max-width: 100%;
+  height: 1250px;
+  border: none;
+  overflow-x: hidden !important;
 }
 
 /* ------------------------------
    9. MOBILE UI
    ------------------------------ */
 #mobileContainer {
-    display: none;
-    text-align: center;
+  display: none;
+  text-align: center;
 }
 
 .hospitalButton {
-    width: 90%;
-    margin: 14px auto;
-    padding: 16px;
-    background: var(--nhs-grey-light);
-    color: var(--nhs-dark-blue);
-    font-size: 18px;
-    border-radius: 6px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    justify-content: center;
+  width: 90%;
+  margin: 14px auto;
+  padding: 16px;
+  background: var(--nhs-grey-light);
+  color: var(--nhs-dark-blue);
+  font-size: 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
 }
 
 .backLink {
-    margin-top: 20px;
-    display: inline-block;
-    color: var(--nhs-blue);
-    font-size: 18px;
-    cursor: pointer;
+  margin-top: 20px;
+  display: inline-block;
+  color: var(--nhs-blue);
+  font-size: 18px;
+  cursor: pointer;
 }
 
 .mobileVersionBox {
-    background: var(--nhs-grey-light);
-    color: var(--nhs-dark-blue);
+  background: var(--nhs-grey-light);
+  color: var(--nhs-dark-blue);
 }
 
 .mobileVersionBox:hover {
-    background: var(--nhs-grey-light) !important;
-    color: var(--nhs-dark-blue) !important;
+  background: var(--nhs-grey-light) !important;
+  color: var(--nhs-dark-blue) !important;
 }
 
 /* ------------------------------
@@ -273,53 +272,54 @@ iframe,
    ------------------------------ */
 
 /* Sticky footer structure */
-html, body {
-    height: 100%;
+html,
+body {
+  height: 100%;
 }
 
 body {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Footer styling */
 #appFooter {
-    background: #37393C;      /* Excel footer background */
-    color: #EAEAEB;           /* Excel footer text/icon colour */
-    padding: 10px 20px;
-    margin-top: auto;         /* Makes it stick to bottom when content is short */
-    font-size: 0.8rem;
+  background: #37393c; /* Excel footer background */
+  color: #eaeaeb; /* Excel footer text/icon colour */
+  padding: 10px 20px;
+  margin-top: auto; /* Makes it stick to bottom when content is short */
+  font-size: 0.8rem;
 }
 
 /* Right-aligned content */
 #appFooter .footerInner {
-    display: flex;
-    justify-content: flex-end;   /* Right-align */
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  justify-content: flex-end; /* Right-align */
+  align-items: center;
+  gap: 8px;
 }
 
 /* Icon styling */
 #appFooter .footerIcon {
-    display: inline-block;
+  display: inline-block;
 }
 
 /* Text styling */
 #appFooter .footerName {
-    font-weight: 600;
-    letter-spacing: 0.4px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
 }
 
 #appFooter .footerDivider {
-    opacity: 0.6;
+  opacity: 0.6;
 }
 
 #appFooter .footerCopy {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
-#appFooter, #appFooter * {
-    line-height: 1;
-    vertical-align: middle;
+#appFooter,
+#appFooter * {
+  line-height: 1;
+  vertical-align: middle;
 }
-

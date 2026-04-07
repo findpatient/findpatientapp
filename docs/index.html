@@ -1,139 +1,147 @@
 <!doctype html>
 <html>
-<head>
+  <head>
     <title>ED Downtime Tracking Tool</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="style.css">
-</head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body>
-
+  <body>
     <!-- NHS HEADER -->
     <div id="nhsHeader">
-        <div id="nhsHeaderLeft">
-            <img src="https://assets.nhs.uk/images/nhs-logo.png" alt="NHS Logo">
-        </div>
+      <div id="nhsHeaderLeft">
+        <img src="https://assets.nhs.uk/images/nhs-logo.png" alt="NHS Logo" />
+      </div>
 
-        <div id="nhsHeaderCenter">ED Downtime Tracking Tool</div>
+      <div id="nhsHeaderCenter">ED Downtime Tracking Tool</div>
 
-        <div id="nhsHeaderRight">
-            <div id="toolsButton" class="menuButton">
-                <span id="activeToolLabel">Tracking Board</span>
+      <div id="nhsHeaderRight">
+        <div id="toolsButton" class="menuButton">
+          <span id="activeToolLabel">Tracking Board</span>
 
-                <div id="toolsMenu" class="dropdownMenu">
-                    <div id="toolTracking" onclick="loadTrackingBoard()">Tracking Board</div>
-                    <div id="toolAddPatient" onclick="loadForm()">Add Patient</div>
-
-                    <hr class="dropdownDivider">
-
-                    <div onclick="manualRefresh()">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#333" style="vertical-align: middle; margin-right: 6px;">
-                            <path d="M12 4V1L8 5l4 4V6c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6H4c0 4.4 3.6 8 8 8s8-3.6 8-8-3.6-8-8-8z"/>
-                        </svg>
-                        Refresh
-                    </div>
-                </div>
+          <div id="toolsMenu" class="dropdownMenu">
+            <div id="toolTracking" onclick="loadTrackingBoard()">
+              Tracking Board
             </div>
+            <div id="toolAddPatient" onclick="loadForm()">Add Patient</div>
 
-            <div id="timestamp"></div>
+            <hr class="dropdownDivider" />
+
+            <div onclick="manualRefresh()">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="#333"
+                style="vertical-align: middle; margin-right: 6px"
+              >
+                <path
+                  d="M12 4V1L8 5l4 4V6c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6H4c0 4.4 3.6 8 8 8s8-3.6 8-8-3.6-8-8-8z"
+                />
+              </svg>
+              Refresh
+            </div>
+          </div>
         </div>
+
+        <div id="timestamp"></div>
+      </div>
     </div>
     <div id="mobileHeaderTitle">ED Downtime Tracking Tool</div>
 
-
-
     <!-- DESKTOP VERSION -->
     <div id="desktopContainer">
+      <div id="selectorBar">
+        <div id="hospitalButton" class="selectorButton">
+          <svg width="16" height="16" fill="#003087" viewBox="0 0 24 24">
+            <path
+              d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"
+            />
+          </svg>
+          <span id="activeHospital">Tunbridge Wells</span>
 
-        <div id="selectorBar">
-
-            <div id="hospitalButton" class="selectorButton">
-                <svg width="16" height="16" fill="#003087" viewBox="0 0 24 24">
-                    <path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/>
-                </svg>
-                <span id="activeHospital">Tunbridge Wells</span>
-
-                <div id="hospitalMenu" class="dropdownMenu">
-                    <div onclick="selectHospital('Tunbridge Wells')">Tunbridge Wells</div>
-                    <div onclick="selectHospital('Maidstone')">Maidstone</div>
-                </div>
+          <div id="hospitalMenu" class="dropdownMenu">
+            <div onclick="selectHospital('Tunbridge Wells')">
+              Tunbridge Wells
             </div>
-
-            <div id="locationButton" class="selectorButton">
-                <span id="activeLocation">Whole Dept</span>
-
-                <div id="locationMenu" class="dropdownMenu">
-                    <div onclick="selectLocation('Whole Dept')">Whole Dept</div>
-                    <div onclick="selectLocation('Waiting Room')">Waiting Room</div>
-                    <div onclick="selectLocation('RAP')">RAP</div>
-                    <div onclick="selectLocation('Resus')">Resus</div>
-                    <div onclick="selectLocation('Minors')">Minors</div>
-                    <div onclick="selectLocation('Majors')">Majors</div>
-                    <div onclick="selectLocation('Paeds ED')">Paeds ED</div>
-                    <div onclick="selectLocation('Clinics')">Clinics</div>
-                    <div onclick="selectLocation('CDU')">CDU</div>
-                </div>
-            </div>
-
+            <div onclick="selectHospital('Maidstone')">Maidstone</div>
+          </div>
         </div>
 
-        <div id="loadingSpinner">Loading…</div>
+        <div id="locationButton" class="selectorButton">
+          <span id="activeLocation">Whole Dept</span>
 
-        <div id="pageContent">
-            <iframe id="dashboardFrame"
-                src="https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_Filtered">
-            </iframe>
+          <div id="locationMenu" class="dropdownMenu">
+            <div onclick="selectLocation('Whole Dept')">Whole Dept</div>
+            <div onclick="selectLocation('Waiting Room')">Waiting Room</div>
+            <div onclick="selectLocation('RAP')">RAP</div>
+            <div onclick="selectLocation('Resus')">Resus</div>
+            <div onclick="selectLocation('Minors')">Minors</div>
+            <div onclick="selectLocation('Majors')">Majors</div>
+            <div onclick="selectLocation('Paeds ED')">Paeds ED</div>
+            <div onclick="selectLocation('Clinics')">Clinics</div>
+            <div onclick="selectLocation('CDU')">CDU</div>
+          </div>
         </div>
+      </div>
 
+      <div id="loadingSpinner">Loading…</div>
+
+      <div id="pageContent">
+        <iframe
+          id="dashboardFrame"
+          src="https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_Filtered"
+        >
+        </iframe>
+      </div>
     </div>
 
     <!-- MOBILE VERSION -->
     <div id="mobileContainer">
+      <div id="mobileMenu">
+        <button class="hospitalButton" onclick="showHospitalSelector()">
+          Tracking Board
+        </button>
+        <button class="hospitalButton" onclick="openForm()">Add Patient</button>
+      </div>
 
-        <div id="mobileMenu">
-            <button class="hospitalButton" onclick="showHospitalSelector()">Tracking Board</button>
-            <button class="hospitalButton" onclick="openForm()">Add Patient</button>
-        </div>
+      <div id="hospitalSelector" style="display: none">
+        <h2>Select Hospital</h2>
 
-        <div id="hospitalSelector" style="display:none;">
-            <h2>Select Hospital</h2>
+        <button class="hospitalButton" onclick="openTW()">
+          <svg width="18" height="18" fill="#003087" viewBox="0 0 24 24">
+            <path
+              d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"
+            />
+          </svg>
+          Tunbridge Wells
+        </button>
 
-            <button class="hospitalButton" onclick="openTW()">
-                <svg width="18" height="18" fill="#003087" viewBox="0 0 24 24">
-                    <path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/>
-                </svg>
-                Tunbridge Wells
-            </button>
+        <!-- ✅ FIXED: added onclick="openMGH()" -->
+        <button class="hospitalButton" onclick="openMGH()">
+          <svg width="18" height="18" fill="#003087" viewBox="0 0 24 24">
+            <path
+              d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"
+            />
+          </svg>
+          Maidstone
+        </button>
 
-            <!-- ✅ FIXED: added onclick="openMGH()" -->
-            <button class="hospitalButton" onclick="openMGH()">
-                <svg width="18" height="18" fill="#003087" viewBox="0 0 24 24">
-                    <path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/>
-                </svg>
-                Maidstone
-            </button>
-
-            <div class="backLink" onclick="goBack()">← Back</div>
-        </div>
-
+        <div class="backLink" onclick="goBack()">← Back</div>
+      </div>
     </div>
-<footer id="appFooter">
-    <div class="footerInner">
-
-
-
-
+    <footer id="appFooter">
+      <div class="footerInner">
         <span class="footerName">findpatient</span>
 
         <span class="footerDivider">|</span>
 
-        <span class="footerCopy">© 2026 findpatient - created by Dr Alexander Ashley</span>
-    </div>
-</footer>
-
-
+        <span class="footerCopy"
+          >© 2026 findpatient - created by Dr Alexander Ashley</span
+        >
+      </div>
+    </footer>
 
     <script src="script.js"></script>
-
-</body>
+  </body>
 </html>
