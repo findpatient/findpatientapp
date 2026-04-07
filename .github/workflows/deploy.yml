@@ -1,0 +1,39 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Inject obfuscated configuration
+        run: |
+          sed -i "s|__TW_TABLE_DATA__|${{ secrets.TW_TABLE_DATA }}|g" script.js
+          sed -i "s|__MGH_TABLE_DATA__|${{ secrets.MGH_TABLE_DATA }}|g" script.js
+          sed -i "s|__FORM_DATA__|${{ secrets.FORM_DATA }}|g" script.js
+          sed -i "s|__AUTHOR_DATA__|${{ secrets.AUTHOR_DATA }}|g" script.js
+          sed -i "s|__KILL_SWITCH__|${{ secrets.KILL_SWITCH }}|g" script.js
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: .
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v2
