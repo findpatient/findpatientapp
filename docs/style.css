@@ -58,6 +58,31 @@ body {
     gap: 4px;
 }
 
+/* Mobile header layout */
+#mobileHeaderTitle {
+    display: none;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 12px 0;
+    color: var(--nhs-dark-blue);
+}
+
+/* Fix overlapping header elements on mobile */
+@media (max-width: 600px) {
+
+    /* Hide the centred desktop title */
+    #nhsHeaderCenter {
+        display: none;
+    }
+
+    /* Show the mobile title */
+    #mobileHeaderTitle {
+        display: block;
+    }
+}
+
+
+
 /* ------------------------------
    4. DESKTOP BUTTONS + MENUS
    ------------------------------ */
@@ -195,17 +220,6 @@ iframe,
 #mobileContainer {
     display: none;
     text-align: center;
-}
-
-.mobileMenuButton {
-    width: 90%;
-    margin: 16px auto;
-    padding: 16px;
-    background: var(--nhs-dark-blue);
-    color: white;
-    font-size: 18px;
-    border-radius: 6px;
-    cursor: pointer;
 }
 
 .hospitalButton {
