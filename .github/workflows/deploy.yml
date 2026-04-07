@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Inject obfuscated configuration
         run: |
@@ -26,7 +26,7 @@ jobs:
           sed -i "s|__KILL_SWITCH__|${{ secrets.KILL_SWITCH }}|g" docs/script.js
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: docs
 
@@ -36,4 +36,4 @@ jobs:
 
     steps:
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
