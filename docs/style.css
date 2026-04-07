@@ -267,3 +267,54 @@ iframe,
     background: var(--nhs-grey-light) !important;
     color: var(--nhs-dark-blue) !important;
 }
+
+/* ------------------------------
+   10. Footer
+   ------------------------------ */
+
+/* Sticky footer structure */
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Footer styling */
+#appFooter {
+    background: #37393C;      /* Excel footer background */
+    color: #EAEAEB;           /* Excel footer text/icon colour */
+    padding: 10px 20px;
+    margin-top: auto;         /* Makes it stick to bottom when content is short */
+    font-size: 0.8rem;
+}
+
+/* Right-aligned content */
+#appFooter .footerInner {
+    display: flex;
+    justify-content: flex-end;   /* Right-align */
+    align-items: center;
+    gap: 8px;
+}
+
+/* Icon styling */
+#appFooter .footerIcon {
+    display: inline-block;
+}
+
+/* Text styling */
+#appFooter .footerName {
+    font-weight: 600;
+    letter-spacing: 0.4px;
+}
+
+#appFooter .footerDivider {
+    opacity: 0.6;
+}
+
+#appFooter .footerCopy {
+    opacity: 0.8;
+}
+
