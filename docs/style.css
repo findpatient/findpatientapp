@@ -283,63 +283,98 @@ body {
 }
 
 /* Footer styling */
+/* Sticky footer structure (keep if not already present) */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Footer layout */
+/* Footer container */
 #appFooter {
   background: #37393c;
   color: #eaeaeb;
-  padding: 10px 20px;
+  padding: 8px 16px;
   margin-top: auto;
-  font-size: 0.75rem; /* smaller text for everything except brand */
+  font-size: 0.72rem; /* smaller overall */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
 }
 
-/* Three equal sections */
-.footerSection {
-  flex: 1;
+/* Keep everything aligned on the same baseline */
+#appFooter {
+  background: #37393c;
+  color: #eaeaeb;
+  padding: 8px 16px;
+  margin-top: auto;
+  font-size: 0.72rem;
   display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
-/* Left: brand */
-.footerLeft {
-  justify-content: flex-start;
+/* Baseline alignment */
+#appFooter,
+#appFooter * {
+  line-height: 1;
+  vertical-align: middle;
 }
 
-.footerBrand {
-  font-weight: 700;
-  font-size: 0.9rem; /* slightly larger, keeps your original styling */
-  letter-spacing: 0.3px;
+/* Left side empty to push right block over */
+#footerLeft {
+  flex: 1;
 }
 
-/* Centre: author name */
-.footerCenter {
-  justify-content: center;
-}
-
-.footerName {
-  font-weight: 600;
-  opacity: 0.85;
-}
-
-/* Right: copyright */
-.footerRight {
+/* Right side identity line */
+#footerRight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   justify-content: flex-end;
 }
 
-.footerCopy {
-  opacity: 0.7;
+/* Narrow, modern brand look */
+.footerBrand {
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: -0.2px; /* key to the narrow look */
+  opacity: 0.95;
 }
 
-/* Mobile tweaks */
+/* Divider */
+.footerDivider {
+  opacity: 0.55;
+}
+
+/* © 2026 */
+.footerCopy {
+  opacity: 0.8;
+  font-weight: 400;
+  font-size: 0.72rem;
+}
+
+/* Your name — same style as © 2026 */
+.footerName {
+  opacity: 0.8;
+  font-weight: 400;
+  font-size: 0.72rem;
+}
+
+/* Mobile refinement */
 @media (max-width: 600px) {
   #appFooter {
-    font-size: 0.7rem;
-    padding: 8px 12px;
+    padding: 6px 12px;
+    font-size: 0.68rem;
   }
 
   .footerBrand {
-    font-size: 0.85rem;
+    font-size: 0.74rem;
+    letter-spacing: -0.25px;
   }
 }
