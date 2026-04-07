@@ -3,6 +3,14 @@
    ========================================================= */
 
 /* ------------------------------
+   0. Data Sources
+   ------------------------------ */
+const iframeSources = {
+    TWH: "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_TWH&wdHideGridlines=True&wdInConfigurator=True&wdInConfigurator=True&edaebf=rslc0",
+    MGH: "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_MGH&wdHideGridlines=True&wdInConfigurator=True&wdInConfigurator=True&edaebf=rslc0"
+};
+
+/* ------------------------------
    1. DOM REFERENCES
    ------------------------------ */
 const desktopContainer = document.getElementById("desktopContainer");
@@ -83,9 +91,15 @@ function goBack() {
     document.getElementById("mobileMenu").style.display = "block";
 }
 
+/* MOBILE REDIRECTS — iOS cannot embed M365 */
 function openTW() {
     window.location.href =
-        "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_Filtered";
+        "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_TWH";
+}
+
+function openMGH() {
+    window.location.href =
+        "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_MGH";
 }
 
 function openForm() {
@@ -105,6 +119,9 @@ window.addEventListener("DOMContentLoaded", () => {
 
     locationMenu.querySelector("div:nth-child(1)").classList.add("selectedItem");
     activeLocation.textContent = "Whole Dept";
+
+    /* Load TWH by default */
+    loadIframeForHospital("TWH");
 });
 
 /* ------------------------------
@@ -161,6 +178,16 @@ iframe.onload = () => {
     updateTimestamp();
 };
 
+function loadIframeForHospital(name) {
+    loadingSpinner.style.display = "block";
+    iframe.src = iframeSources[name];
+
+    iframe.onload = () => {
+        loadingSpinner.style.display = "none";
+        updateTimestamp();
+    };
+}
+
 /* ------------------------------
    7. TOOL SWITCHING
    ------------------------------ */
@@ -177,8 +204,10 @@ function loadTrackingBoard() {
 
     highlightTool(toolTracking);
 
-    iframe.src =
-        "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_Filtered";
+    /* Load whichever hospital is currently selected */
+    const hospital = activeHospital.textContent;
+    if (hospital === "Tunbridge Wells") loadIframeForHospital("TWH");
+    if (hospital === "Maidstone") loadIframeForHospital("MGH");
 
     iframe.classList.remove("iframeForm");
     iframe.classList.add("iframeTracking");
@@ -204,6 +233,9 @@ function loadForm() {
 function selectHospital(name) {
     activeHospital.textContent = name;
     hospitalMenu.style.display = "none";
+
+    if (name === "Tunbridge Wells") loadIframeForHospital("TWH");
+    if (name === "Maidstone") loadIframeForHospital("MGH");
 }
 
 function selectLocation(name) {
