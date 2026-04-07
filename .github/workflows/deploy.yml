@@ -18,12 +18,15 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Inject obfuscated configuration
-        run: |
-          sed -i "s|__TW_TABLE_DATA__|${{ secrets.TW_TABLE_DATA }}|g" docs/script.js
-          sed -i "s|__MGH_TABLE_DATA__|${{ secrets.MGH_TABLE_DATA }}|g" docs/script.js
-          sed -i "s|__FORM_DATA__|${{ secrets.FORM_DATA }}|g" docs/script.js
-          sed -i "s|__AUTHOR_DATA__|${{ secrets.AUTHOR_DATA }}|g" docs/script.js
-          sed -i "s|__KILL_SWITCH__|${{ secrets.KILL_SWITCH }}|g" docs/script.js
+  run: |
+    sed -i "s|__TW_TABLE_DATA__|${{ secrets.TWH_REF }}|g" docs/script.js
+    sed -i "s|__MGH_TABLE_DATA__|${{ secrets.MGH_REF }}|g" docs/script.js
+    sed -i "s|__FORM_DATA__|${{ secrets.FORM_REF }}|g" docs/script.js
+    sed -i "s|__AUTHOR_DATA__|${{ secrets.AUTHOR_REF }}|g" docs/script.js
+    sed -i "s|__KILL_SWITCH__|${{ secrets.KILL_SWITCH }}|g" docs/script.js
+
+    echo "----- Modified script.js -----"
+    sed -n '1,40p' docs/script.js
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
