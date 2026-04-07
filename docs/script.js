@@ -3,12 +3,34 @@
    ========================================================= */
 
 /* ------------------------------
-   0. Data Sources
+   0. Config values
    ------------------------------ */
-const iframeSources = {
-  TWH: "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_TWH&wdHideGridlines=True&wdInConfigurator=True&wdInConfigurator=True&edaebf=rslc0",
-  MGH: "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_MGH&wdHideGridlines=True&wdInConfigurator=True&wdInConfigurator=True&edaebf=rslc0",
+
+function decode(value) {
+  return atob(value);
+}
+
+const config = {
+  twTable: decode("__TW_TABLE_DATA__"),
+  mghTable: decode("__MGH_TABLE_DATA__"),
+  formUrl: decode("__FORM_DATA__"),
+  authorName: decode("__AUTHOR_DATA__"),
+  killSwitch: "__KILL_SWITCH__",
 };
+
+/* ------------------------------
+   0a. Kill Switch
+   ------------------------------ */
+
+if (config.killSwitch === "UPTIME") {
+  document.body.innerHTML = `
+        <div style="padding:40px; text-align:center; font-family:Arial;">
+            <h2>ED Downtime Tool Disabled</h2>
+            <p>The live EPR system is currently available.</p>
+        </div>
+    `;
+  throw new Error("Kill switch active — stopping script execution.");
+}
 
 /* ------------------------------
    1. DOM REFERENCES
@@ -93,18 +115,15 @@ function goBack() {
 
 /* MOBILE REDIRECTS — iOS cannot embed M365 */
 function openTW() {
-  window.location.href =
-    "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_TWH";
+  window.location.href = config.twTable;
 }
 
 function openMGH() {
-  window.location.href =
-    "https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_MGH";
+  window.location.href = config.mghTable;
 }
 
 function openForm() {
-  window.location.href =
-    "https://forms.office.com/Pages/ResponsePage.aspx?id=slTDN7CF9UeyIge0jXdO4-gZCzn4LxVOhNz2gCIcK5JUNlJDTjlEVDk1SEhHMVFPTVowNTJGNzVOTC4u&embed=true";
+  window.location.href = config.formUrl;
 }
 
 /* ------------------------------
@@ -122,6 +141,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
   /* Load TWH by default */
   loadIframeForHospital("TWH");
+
+  /* Inject obfuscated author name */
+  const footerAuthor = document.getElementById("footerAuthor");
+  if (footerAuthor) footerAuthor.textContent = config.authorName;
 });
 
 /* ------------------------------
@@ -180,7 +203,9 @@ iframe.onload = () => {
 
 function loadIframeForHospital(name) {
   loadingSpinner.style.display = "block";
-  iframe.src = iframeSources[name];
+
+  if (name === "TWH") iframe.src = config.twTable;
+  if (name === "MGH") iframe.src = config.mghTable;
 
   iframe.onload = () => {
     loadingSpinner.style.display = "none";
@@ -204,7 +229,6 @@ function loadTrackingBoard() {
 
   highlightTool(toolTracking);
 
-  /* Load whichever hospital is currently selected */
   const hospital = activeHospital.textContent;
   if (hospital === "Tunbridge Wells") loadIframeForHospital("TWH");
   if (hospital === "Maidstone") loadIframeForHospital("MGH");
@@ -220,8 +244,7 @@ function loadForm() {
 
   highlightTool(toolAddPatient);
 
-  iframe.src =
-    "https://forms.office.com/Pages/ResponsePage.aspx?id=slTDN7CF9UeyIge0jXdO4-gZCzn4LxVOhNz2gCIcK5JUNlJDTjlEVDk1SEhHMVFPTVowNTJGNzVOTC4u&embed=true";
+  iframe.src = config.formUrl;
 
   iframe.classList.remove("iframeTracking");
   iframe.classList.add("iframeForm");

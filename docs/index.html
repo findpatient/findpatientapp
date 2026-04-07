@@ -88,11 +88,7 @@
       <div id="loadingSpinner">Loading…</div>
 
       <div id="pageContent">
-        <iframe
-          id="dashboardFrame"
-          src="https://nhs-my.sharepoint.com/personal/alexander_ashley_nhs_net/_layouts/15/Doc.aspx?sourcedoc={a16a51d9-9457-4346-b70f-6b9c0f8806ee}&action=embedview&Item=Patients_Filtered"
-        >
-        </iframe>
+        <iframe id="dashboardFrame" src=""></iframe>
       </div>
     </div>
 
@@ -117,7 +113,6 @@
           Tunbridge Wells
         </button>
 
-        <!-- ✅ FIXED: added onclick="openMGH()" -->
         <button class="hospitalButton" onclick="openMGH()">
           <svg width="18" height="18" fill="#003087" viewBox="0 0 24 24">
             <path
@@ -130,15 +125,12 @@
         <div class="backLink" onclick="goBack()">← Back</div>
       </div>
     </div>
+
     <footer id="appFooter">
       <div class="footerInner">
         <span class="footerName">findpatient</span>
-
         <span class="footerDivider">|</span>
-
-        <span class="footerCopy"
-          >© 2026 findpatient - created by Dr Alexander Ashley</span
-        >
+        <span class="footerCopy">© 2026 <span id="footerAuthor"></span></span>
       </div>
     </footer>
 
