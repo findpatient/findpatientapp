@@ -19,16 +19,16 @@ jobs:
 
       - name: Inject obfuscated configuration
         run: |
-          sed -i "s|__TW_TABLE_DATA__|${{ secrets.TW_TABLE_DATA }}|g" script.js
-          sed -i "s|__MGH_TABLE_DATA__|${{ secrets.MGH_TABLE_DATA }}|g" script.js
-          sed -i "s|__FORM_DATA__|${{ secrets.FORM_DATA }}|g" script.js
-          sed -i "s|__AUTHOR_DATA__|${{ secrets.AUTHOR_DATA }}|g" script.js
-          sed -i "s|__KILL_SWITCH__|${{ secrets.KILL_SWITCH }}|g" script.js
+          sed -i "s|__TW_TABLE_DATA__|${{ secrets.TW_TABLE_DATA }}|g" docs/script.js
+          sed -i "s|__MGH_TABLE_DATA__|${{ secrets.MGH_TABLE_DATA }}|g" docs/script.js
+          sed -i "s|__FORM_DATA__|${{ secrets.FORM_DATA }}|g" docs/script.js
+          sed -i "s|__AUTHOR_DATA__|${{ secrets.AUTHOR_DATA }}|g" docs/script.js
+          sed -i "s|__KILL_SWITCH__|${{ secrets.KILL_SWITCH }}|g" docs/script.js
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: .
+          path: docs
 
   deploy:
     runs-on: ubuntu-latest
