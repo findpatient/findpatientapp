@@ -81,10 +81,23 @@ body {
     }
 }
 
+/* ------------------------------
+   4. GLOBAL BUTTON RESET (FIX WEBVIEW2 BORDERS)
+   ------------------------------ */
 
+button,
+input[type="button"],
+input[type="submit"],
+.hospitalButton {
+    border: none !important;
+    outline: none !important;
+    -webkit-appearance: none;
+    appearance: none;
+    background-clip: padding-box;
+}
 
 /* ------------------------------
-   4. DESKTOP BUTTONS + MENUS
+   5. DESKTOP BUTTONS + MENUS
    ------------------------------ */
 .menuButton {
     background: var(--nhs-grey-light);
@@ -150,7 +163,7 @@ body {
 }
 
 /* ------------------------------
-   5. SELECTOR BAR
+   6. SELECTOR BAR
    ------------------------------ */
 #selectorBar {
     display: flex;
@@ -179,7 +192,7 @@ body {
 }
 
 /* ------------------------------
-   6. TIMESTAMP + LOADING SPINNER
+   7. TIMESTAMP + LOADING SPINNER
    ------------------------------ */
 #timestamp {
     font-size: 13px;
@@ -197,7 +210,7 @@ body {
 }
 
 /* ------------------------------
-   7. IFRAMES
+   8. IFRAMES
    ------------------------------ */
 iframe,
 .iframeTracking {
@@ -215,7 +228,7 @@ iframe,
 }
 
 /* ------------------------------
-   8. MOBILE UI
+   9. MOBILE UI
    ------------------------------ */
 #mobileContainer {
     display: none;
