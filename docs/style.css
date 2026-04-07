@@ -291,12 +291,12 @@ body {
   font-size: 0.8rem;
 
   display: flex;
-  justify-content: space-between; /* <-- left + right edges */
+  justify-content: space-between;
   align-items: center;
 }
 
 #footerLeft {
-  flex: 1; /* <-- pushes right block to the edge */
+  flex: 1;
   text-align: left;
 }
 
@@ -304,4 +304,22 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.footerIcon {
+  opacity: 0.85;
+  font-weight: 600;
+}
+
+.footerName {
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+
+.footerDivider {
+  opacity: 0.6;
+}
+
+.footerCopy {
+  opacity: 0.8;
 }
