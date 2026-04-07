@@ -282,32 +282,6 @@ body {
   flex-direction: column;
 }
 
-/* Footer styling */
-/* Sticky footer structure (keep if not already present) */
-html,
-body {
-  height: 100%;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Footer layout */
-/* Footer container */
-#appFooter {
-  background: #37393c;
-  color: #eaeaeb;
-  padding: 8px 16px;
-  margin-top: auto;
-  font-size: 0.72rem; /* smaller overall */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Keep everything aligned on the same baseline */
 #appFooter {
   background: #37393c;
   color: #eaeaeb;
@@ -326,7 +300,7 @@ body {
   vertical-align: middle;
 }
 
-/* Left side empty to push right block over */
+/* Left side empty */
 #footerLeft {
   flex: 1;
 }
@@ -343,7 +317,7 @@ body {
 .footerBrand {
   font-weight: 700;
   font-size: 0.78rem;
-  letter-spacing: -0.2px; /* key to the narrow look */
+  letter-spacing: -0.2px;
   opacity: 0.95;
 }
 
