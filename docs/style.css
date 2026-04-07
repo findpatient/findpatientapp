@@ -307,13 +307,8 @@ body {
 }
 
 .footerIcon {
+  font-weight: 600;
   opacity: 0.85;
-  font-weight: 600;
-}
-
-.footerName {
-  font-weight: 600;
-  letter-spacing: 0.4px;
 }
 
 .footerDivider {
@@ -322,4 +317,9 @@ body {
 
 .footerCopy {
   opacity: 0.8;
+}
+
+.footerName {
+  font-weight: 600;
+  letter-spacing: 0.4px;
 }
