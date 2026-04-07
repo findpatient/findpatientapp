@@ -288,38 +288,58 @@ body {
   color: #eaeaeb;
   padding: 10px 20px;
   margin-top: auto;
-  font-size: 0.8rem;
-
+  font-size: 0.75rem; /* smaller text for everything except brand */
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
 }
 
-#footerLeft {
+/* Three equal sections */
+.footerSection {
   flex: 1;
-  text-align: left;
-}
-
-#footerRight {
   display: flex;
   align-items: center;
-  gap: 8px;
 }
 
-.footerIcon {
-  font-weight: 600;
-  opacity: 0.85;
+/* Left: brand */
+.footerLeft {
+  justify-content: flex-start;
 }
 
-.footerDivider {
-  opacity: 0.6;
+.footerBrand {
+  font-weight: 700;
+  font-size: 0.9rem; /* slightly larger, keeps your original styling */
+  letter-spacing: 0.3px;
 }
 
-.footerCopy {
-  opacity: 0.8;
+/* Centre: author name */
+.footerCenter {
+  justify-content: center;
 }
 
 .footerName {
   font-weight: 600;
-  letter-spacing: 0.4px;
+  opacity: 0.85;
+}
+
+/* Right: copyright */
+.footerRight {
+  justify-content: flex-end;
+}
+
+.footerCopy {
+  opacity: 0.7;
+}
+
+/* Mobile tweaks */
+@media (max-width: 600px) {
+  #appFooter {
+    font-size: 0.7rem;
+    padding: 8px 12px;
+  }
+
+  .footerBrand {
+    font-size: 0.85rem;
+  }
 }
