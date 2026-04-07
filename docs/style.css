@@ -284,42 +284,24 @@ body {
 
 /* Footer styling */
 #appFooter {
-  background: #37393c; /* Excel footer background */
-  color: #eaeaeb; /* Excel footer text/icon colour */
+  background: #37393c;
+  color: #eaeaeb;
   padding: 10px 20px;
-  margin-top: auto; /* Makes it stick to bottom when content is short */
+  margin-top: auto;
   font-size: 0.8rem;
+
+  display: flex;
+  justify-content: space-between; /* <-- left + right edges */
+  align-items: center;
 }
 
-/* Right-aligned content */
-#appFooter .footerInner {
+#footerLeft {
+  flex: 1; /* <-- pushes right block to the edge */
+  text-align: left;
+}
+
+#footerRight {
   display: flex;
-  justify-content: flex-end; /* Right-align */
   align-items: center;
   gap: 8px;
-}
-
-/* Icon styling */
-#appFooter .footerIcon {
-  display: inline-block;
-}
-
-/* Text styling */
-#appFooter .footerName {
-  font-weight: 600;
-  letter-spacing: 0.4px;
-}
-
-#appFooter .footerDivider {
-  opacity: 0.6;
-}
-
-#appFooter .footerCopy {
-  opacity: 0.8;
-}
-
-#appFooter,
-#appFooter * {
-  line-height: 1;
-  vertical-align: middle;
 }
