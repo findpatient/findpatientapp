@@ -318,3 +318,8 @@ body {
     opacity: 0.8;
 }
 
+#appFooter, #appFooter * {
+    line-height: 1;
+    vertical-align: middle;
+}
+
