@@ -16,10 +16,12 @@
       <div id="nhsHeaderCenter">ED Downtime Tracking Tool</div>
 
       <div id="nhsHeaderRight">
-        <div id="toolsButton" class="menuButton">
+        <!-- TOOLS BUTTON (dropdownTrigger added) -->
+        <div id="toolsButton" class="menuButton dropdownTrigger">
           <span id="activeToolLabel">Tracking Board</span>
 
-          <div id="toolsMenu" class="dropdownMenu">
+          <!-- TOOLS MENU (dropdownList added) -->
+          <div id="toolsMenu" class="dropdownMenu dropdownList">
             <div id="toolTracking" onclick="loadTrackingBoard()">
               Tracking Board
             </div>
@@ -47,12 +49,14 @@
         <div id="timestamp"></div>
       </div>
     </div>
+
     <div id="mobileHeaderTitle">ED Downtime Tracking Tool</div>
 
     <!-- DESKTOP VERSION -->
     <div id="desktopContainer">
       <div id="selectorBar">
-        <div id="hospitalButton" class="selectorButton">
+        <!-- HOSPITAL BUTTON (dropdownTrigger added) -->
+        <div id="hospitalButton" class="selectorButton dropdownTrigger">
           <svg width="16" height="16" fill="#003087" viewBox="0 0 24 24">
             <path
               d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"
@@ -60,7 +64,8 @@
           </svg>
           <span id="activeHospital">Tunbridge Wells</span>
 
-          <div id="hospitalMenu" class="dropdownMenu">
+          <!-- HOSPITAL MENU (dropdownList added) -->
+          <div id="hospitalMenu" class="dropdownMenu dropdownList">
             <div onclick="selectHospital('Tunbridge Wells')">
               Tunbridge Wells
             </div>
@@ -68,10 +73,12 @@
           </div>
         </div>
 
-        <div id="locationButton" class="selectorButton">
+        <!-- LOCATION BUTTON (dropdownTrigger added) -->
+        <div id="locationButton" class="selectorButton dropdownTrigger">
           <span id="activeLocation">Whole Dept</span>
 
-          <div id="locationMenu" class="dropdownMenu">
+          <!-- LOCATION MENU (dropdownList added) -->
+          <div id="locationMenu" class="dropdownMenu dropdownList">
             <div onclick="selectLocation('Whole Dept')">Whole Dept</div>
             <div onclick="selectLocation('Waiting Room')">Waiting Room</div>
             <div onclick="selectLocation('RAP')">RAP</div>
@@ -125,6 +132,7 @@
         <div class="backLink" onclick="goBack()">← Back</div>
       </div>
     </div>
+
     <footer id="appFooter">
       <div id="footerLeft"></div>
 

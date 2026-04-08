@@ -352,3 +352,18 @@ body {
     letter-spacing: -0.25px;
   }
 }
+
+/* Unified dropdown behaviour */
+.dropdownList {
+  display: none;
+}
+
+.dropdownList.open {
+  display: block !important;
+}
+
+.dropdownList div.active {
+  background: #e6f0fa !important;
+  border-left: 3px solid var(--nhs-blue) !important;
+  font-weight: 600;
+}

@@ -1,9 +1,9 @@
 /* =========================================================
-   NHS DOWNTIME TRACKING TOOL — SCRIPT FILE
+   NHS DOWNTIME TRACKING TOOL — CLEAN REWRITE (UNIFIED DROPDOWNS)
    ========================================================= */
 
 /* ------------------------------
-   0. Config values 
+   0. CONFIG + KILL SWITCH
    ------------------------------ */
 
 function decode(value) {
@@ -18,38 +18,25 @@ const config = {
   killSwitch: "__KILL_SWITCH__",
 };
 
-/* ------------------------------
-   0a. Kill Switch
-   ------------------------------ */
-
 if (config.killSwitch === "UPTIME") {
   document.body.innerHTML = `
-        <div style="padding:40px; text-align:center; font-family:Arial;">
-            <h2>ED Downtime Tool Disabled</h2>
-            <p>The live EPR system is currently available.</p>
-        </div>
-    `;
+    <div style="padding:40px; text-align:center; font-family:Arial;">
+      <h2>ED Downtime Tool Disabled</h2>
+      <p>The live EPR system is currently available.</p>
+    </div>`;
   throw new Error("Kill switch active — stopping script execution.");
 }
 
 /* ------------------------------
    1. DOM REFERENCES
    ------------------------------ */
+
 const desktopContainer = document.getElementById("desktopContainer");
 const mobileContainer = document.getElementById("mobileContainer");
 
 const toolsButton = document.getElementById("toolsButton");
 const toolsMenu = document.getElementById("toolsMenu");
 const activeToolLabel = document.getElementById("activeToolLabel");
-
-const timestamp = document.getElementById("timestamp");
-const loadingSpinner = document.getElementById("loadingSpinner");
-
-const iframe = document.getElementById("dashboardFrame");
-const selectorBar = document.getElementById("selectorBar");
-
-const toolTracking = document.getElementById("toolTracking");
-const toolAddPatient = document.getElementById("toolAddPatient");
 
 const hospitalButton = document.getElementById("hospitalButton");
 const hospitalMenu = document.getElementById("hospitalMenu");
@@ -59,9 +46,18 @@ const locationButton = document.getElementById("locationButton");
 const locationMenu = document.getElementById("locationMenu");
 const activeLocation = document.getElementById("activeLocation");
 
+const timestamp = document.getElementById("timestamp");
+const loadingSpinner = document.getElementById("loadingSpinner");
+const iframe = document.getElementById("dashboardFrame");
+const selectorBar = document.getElementById("selectorBar");
+
+const toolTracking = document.getElementById("toolTracking");
+const toolAddPatient = document.getElementById("toolAddPatient");
+
 /* ------------------------------
    2. MOBILE DETECTION
    ------------------------------ */
+
 function detectMobileMode() {
   const params = new URLSearchParams(window.location.search);
   if (params.get("mobile") === "1") return true;
@@ -103,6 +99,7 @@ window.addEventListener("load", () => {
 /* ------------------------------
    3. MOBILE FUNCTIONS
    ------------------------------ */
+
 function showHospitalSelector() {
   document.getElementById("mobileMenu").style.display = "none";
   document.getElementById("hospitalSelector").style.display = "block";
@@ -113,7 +110,6 @@ function goBack() {
   document.getElementById("mobileMenu").style.display = "block";
 }
 
-/* MOBILE REDIRECTS — iOS cannot embed M365 */
 function openTW() {
   window.location.href = config.twTable;
 }
@@ -129,73 +125,74 @@ function openForm() {
 /* ------------------------------
    4. DEFAULT SELECTIONS
    ------------------------------ */
+
 window.addEventListener("DOMContentLoaded", () => {
   toolTracking.classList.add("selectedItem");
   activeToolLabel.textContent = "Tracking Board";
 
-  hospitalMenu.querySelector("div:nth-child(1)").classList.add("selectedItem");
+  hospitalMenu.querySelector("div:nth-child(1)").classList.add("active");
   activeHospital.textContent = "Tunbridge Wells";
 
-  locationMenu.querySelector("div:nth-child(1)").classList.add("selectedItem");
+  locationMenu.querySelector("div:nth-child(1)").classList.add("active");
   activeLocation.textContent = "Whole Dept";
 
-  /* Load TWH by default */
   loadIframeForHospital("TWH");
 
-  /* Inject obfuscated author name */
   const footerAuthor = document.getElementById("footerAuthor");
   if (footerAuthor) footerAuthor.textContent = config.authorName;
 });
 
 /* ------------------------------
-   5. DESKTOP MENU LOGIC
+   5. UNIFIED DROPDOWN SYSTEM
    ------------------------------ */
-toolsButton.addEventListener("click", () => {
-  const isOpen = toolsMenu.style.display === "block";
-  toolsMenu.style.display = isOpen ? "none" : "block";
 
-  hospitalMenu.style.display = "none";
-  locationMenu.style.display = "none";
+document.addEventListener("DOMContentLoaded", () => {
+  const triggers = document.querySelectorAll(".dropdownTrigger");
 
-  toolsButton.classList.toggle("activeButton", !isOpen);
-  hospitalButton.classList.remove("activeButton");
-  locationButton.classList.remove("activeButton");
-});
+  // Toggle dropdowns
+  triggers.forEach((trigger) => {
+    trigger.addEventListener("click", (e) => {
+      e.stopPropagation();
 
-hospitalButton.addEventListener("click", () => {
-  const isOpen = hospitalMenu.style.display === "block";
-  hospitalMenu.style.display = isOpen ? "none" : "block";
+      document.querySelectorAll(".dropdownList.open").forEach((menu) => {
+        if (!trigger.contains(menu)) menu.classList.remove("open");
+      });
 
-  toolsMenu.style.display = "none";
-  locationMenu.style.display = "none";
+      const menu = trigger.querySelector(".dropdownList");
+      if (menu) menu.classList.toggle("open");
+    });
+  });
 
-  hospitalButton.classList.toggle("activeButton", !isOpen);
-  toolsButton.classList.remove("activeButton");
-  locationButton.classList.remove("activeButton");
-});
+  // Close when clicking outside
+  document.addEventListener("click", () => {
+    document.querySelectorAll(".dropdownList.open").forEach((menu) => {
+      menu.classList.remove("open");
+    });
+  });
 
-locationButton.addEventListener("click", () => {
-  const isOpen = locationMenu.style.display === "block";
-  locationMenu.style.display = isOpen ? "none" : "block";
+  // Handle item selection
+  document.querySelectorAll(".dropdownList div").forEach((item) => {
+    item.addEventListener("click", (e) => {
+      e.stopPropagation();
 
-  toolsMenu.style.display = "none";
-  hospitalMenu.style.display = "none";
+      const menu = item.closest(".dropdownList");
+      const trigger = menu.closest(".dropdownTrigger");
 
-  locationButton.classList.toggle("activeButton", !isOpen);
-  toolsButton.classList.remove("activeButton");
-  hospitalButton.classList.remove("activeButton");
-});
+      menu.querySelectorAll("div").forEach((i) => i.classList.remove("active"));
+      item.classList.add("active");
 
-/* Close menus when clicking outside */
-document.addEventListener("click", (e) => {
-  if (!toolsButton.contains(e.target)) toolsMenu.style.display = "none";
-  if (!hospitalButton.contains(e.target)) hospitalMenu.style.display = "none";
-  if (!locationButton.contains(e.target)) locationMenu.style.display = "none";
+      const label = trigger.querySelector("span");
+      if (label) label.textContent = item.textContent.trim();
+
+      menu.classList.remove("open");
+    });
+  });
 });
 
 /* ------------------------------
-   6. IFRAME LOAD + TIMESTAMP
+   6. IFRAME LOADING + TIMESTAMP
    ------------------------------ */
+
 iframe.onload = () => {
   loadingSpinner.style.display = "none";
   updateTimestamp();
@@ -204,8 +201,7 @@ iframe.onload = () => {
 function loadIframeForHospital(name) {
   loadingSpinner.style.display = "block";
 
-  if (name === "TWH") iframe.src = config.twTable;
-  if (name === "MGH") iframe.src = config.mghTable;
+  iframe.src = name === "TWH" ? config.twTable : config.mghTable;
 
   iframe.onload = () => {
     loadingSpinner.style.display = "none";
@@ -216,6 +212,7 @@ function loadIframeForHospital(name) {
 /* ------------------------------
    7. TOOL SWITCHING
    ------------------------------ */
+
 function highlightTool(tool) {
   toolTracking.classList.remove("selectedItem");
   toolAddPatient.classList.remove("selectedItem");
@@ -230,8 +227,7 @@ function loadTrackingBoard() {
   highlightTool(toolTracking);
 
   const hospital = activeHospital.textContent;
-  if (hospital === "Tunbridge Wells") loadIframeForHospital("TWH");
-  if (hospital === "Maidstone") loadIframeForHospital("MGH");
+  loadIframeForHospital(hospital === "Tunbridge Wells" ? "TWH" : "MGH");
 
   iframe.classList.remove("iframeForm");
   iframe.classList.add("iframeTracking");
@@ -253,22 +249,20 @@ function loadForm() {
 /* ------------------------------
    8. HOSPITAL + LOCATION SELECTORS
    ------------------------------ */
+
 function selectHospital(name) {
   activeHospital.textContent = name;
-  hospitalMenu.style.display = "none";
-
-  if (name === "Tunbridge Wells") loadIframeForHospital("TWH");
-  if (name === "Maidstone") loadIframeForHospital("MGH");
+  loadIframeForHospital(name === "Tunbridge Wells" ? "TWH" : "MGH");
 }
 
 function selectLocation(name) {
   activeLocation.textContent = name;
-  locationMenu.style.display = "none";
 }
 
 /* ------------------------------
    9. REFRESH LOGIC
    ------------------------------ */
+
 function manualRefresh() {
   if (activeToolLabel.textContent !== "Tracking Board") return;
 
@@ -280,7 +274,6 @@ function manualRefresh() {
   iframe.src = `${base}?${params}&manual=${Date.now()}`;
 }
 
-/* Auto-refresh every 5 minutes */
 setInterval(() => {
   if (activeToolLabel.textContent !== "Tracking Board") return;
 
@@ -293,8 +286,9 @@ setInterval(() => {
 }, 300000);
 
 /* ------------------------------
-   10. TIMESTAMP UPDATE
+   10. TIMESTAMP
    ------------------------------ */
+
 function updateTimestamp() {
   timestamp.textContent =
     "Last refreshed at " +
