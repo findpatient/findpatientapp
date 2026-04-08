@@ -171,6 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Handle item selection
+  // Handle item selection
   document.querySelectorAll(".dropdownList div").forEach((item) => {
     item.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -178,6 +179,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const menu = item.closest(".dropdownList");
       const trigger = menu.closest(".dropdownTrigger");
 
+      // If this item has class "noSelect", do NOT update label or active state
+      if (item.classList.contains("noSelect")) {
+        menu.classList.remove("open");
+        return;
+      }
+
+      // Normal behaviour for selectable items
       menu.querySelectorAll("div").forEach((i) => i.classList.remove("active"));
       item.classList.add("active");
 
