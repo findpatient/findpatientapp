@@ -122,6 +122,12 @@ input[type="submit"],
   color: var(--nhs-dark-blue) !important;
 }
 
+.menuButton span,
+.selectorButton span {
+  font-weight: 600;
+  color: var(--nhs-dark-blue);
+}
+
 .dropdownMenu {
   display: none;
   position: absolute;
