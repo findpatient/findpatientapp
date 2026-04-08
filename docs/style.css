@@ -1,0 +1,354 @@
+/* =========================================================
+   NHS DOWNTIME TRACKING TOOL — CLEAN, FIXED, RESPONSIVE CSS
+   ========================================================= */
+
+/* ------------------------------
+   1. NHS COLOUR VARIABLES
+   ------------------------------ */
+:root {
+  --nhs-blue: #005eb8;
+  --nhs-dark-blue: #003087;
+  --nhs-grey-light: #e8edee;
+  --nhs-grey-mid: #d9dfe5;
+  --nhs-grey-divider: #d0d0d0;
+  --text-dark: #333;
+}
+
+/* ------------------------------
+   2. GLOBAL BASE STYLES
+   ------------------------------ */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #ffffff;
+  text-align: center;
+}
+
+/* Critical fix: footer anchored + iframe fills space */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ------------------------------
+   3. NHS HEADER BAR
+   ------------------------------ */
+#nhsHeader {
+  background: var(--nhs-blue);
+  color: white;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+#nhsHeaderLeft img {
+  height: 40px;
+}
+
+#nhsHeaderCenter {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 24px;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+#nhsHeaderRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+/* Mobile header layout */
+#mobileHeaderTitle {
+  display: none;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 12px 0;
+  color: var(--nhs-dark-blue);
+}
+
+@media (max-width: 600px) {
+  #nhsHeaderCenter { display: none; }
+  #mobileHeaderTitle { display: block; }
+}
+
+/* ------------------------------
+   4. BUTTON RESET
+   ------------------------------ */
+button,
+input[type="button"],
+input[type="submit"],
+.hospitalButton {
+  border: none !important;
+  outline: none !important;
+  -webkit-appearance: none;
+  appearance: none;
+  background-clip: padding-box;
+}
+
+/* ------------------------------
+   5. DESKTOP BUTTONS + MENUS
+   ------------------------------ */
+.menuButton {
+  background: var(--nhs-grey-light);
+  color: var(--nhs-dark-blue);
+  padding: 6px 14px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+  width: 110px;
+  justify-content: center;
+}
+
+.menuButton:not(.activeButton):hover {
+  background: var(--nhs-grey-mid) !important;
+}
+
+.menuButton.activeButton {
+  background: var(--nhs-grey-mid) !important;
+  color: var(--nhs-dark-blue) !important;
+}
+
+.menuButton span,
+.selectorButton span {
+  font-weight: 600;
+  color: var(--nhs-dark-blue);
+}
+
+/* ------------------------------
+   6. DROPDOWN MENUS (FIXED)
+   ------------------------------ */
+.dropdownTrigger {
+  position: relative;
+  overflow: visible;
+}
+
+.dropdownMenu {
+  display: none;
+  position: absolute;
+  top: 42px;
+  left: 0;
+  background: white;
+  color: var(--text-dark);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+  /* Fix: width auto-expands to longest item */
+  width: max-content !important;
+  min-width: 160px;
+  max-width: none;
+  white-space: nowrap;
+
+  z-index: 10;
+}
+
+.dropdownMenu div {
+  padding: 10px 14px;
+  border-left: 3px solid transparent;
+  cursor: pointer;
+
+  /* Fix: left-align menu items */
+  text-align: left;
+}
+
+.dropdownMenu div:hover {
+  background: #e6f0fa;
+  border-left: 3px solid var(--nhs-blue);
+}
+
+.dropdownDivider {
+  border: none;
+  height: 1px;
+  background: var(--nhs-grey-divider);
+  width: 80%;
+  margin: 6px auto;
+}
+
+.dropdownList.open {
+  display: block !important;
+}
+
+.dropdownList div.active {
+  background: #e6f0fa !important;
+  border-left: 3px solid var(--nhs-blue) !important;
+  font-weight: 600;
+}
+
+.noSelect {
+  pointer-events: auto;
+}
+
+.noSelect.active,
+.noSelect.selectedItem {
+  background: white !important;
+  color: var(--text-dark) !important;
+  font-weight: normal !important;
+  border-left: 3px solid transparent !important;
+}
+
+/* Fix: Tools menu opens leftwards (because it's on the right) */
+#toolsButton .dropdownMenu {
+  left: auto;
+  right: 0;
+}
+
+/* ------------------------------
+   7. SELECTOR BAR
+   ------------------------------ */
+#selectorBar {
+  display: flex;
+  gap: 8px;
+  padding: 12px 30px;
+  justify-content: flex-start;
+}
+
+.selectorButton {
+  background: var(--nhs-grey-light);
+  color: var(--nhs-dark-blue);
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+
+.selectorButton.activeButton,
+.selectorButton:not(.activeButton):hover {
+  background: var(--nhs-grey-mid) !important;
+}
+
+/* ------------------------------
+   8. TIMESTAMP + LOADING SPINNER
+   ------------------------------ */
+#timestamp {
+  font-size: 13px;
+  color: #e6e6e6;
+}
+
+#loadingSpinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  color: var(--nhs-blue);
+  display: none;
+}
+
+/* ------------------------------
+   9. IFRAMES (FLEX-BASED FIX)
+   ------------------------------ */
+iframe,
+.iframeTracking {
+  flex: 1 1 auto;       /* Fill remaining vertical space */
+  width: 100%;
+  max-width: 100%;
+  border: none;
+  box-sizing: border-box;
+  min-height: 0;        /* Prevent flex overflow */
+}
+
+.iframeForm {
+  width: 100%;
+  max-width: 100%;
+  height: 1250px;
+  border: none;
+  overflow-x: hidden !important;
+}
+
+/* ------------------------------
+   10. MOBILE UI
+   ------------------------------ */
+#mobileContainer {
+  display: none;
+  text-align: center;
+}
+
+.hospitalButton {
+  width: 90%;
+  margin: 14px auto;
+  padding: 16px;
+  background: var(--nhs-grey-light);
+  color: var(--nhs-dark-blue);
+  font-size: 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+}
+
+.backLink {
+  margin-top: 20px;
+  display: inline-block;
+  color: var(--nhs-blue);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* ------------------------------
+   11. FOOTER (VERSION FIX)
+   ------------------------------ */
+#appFooter {
+  background: #37393c;
+  color: #eaeaeb;
+  padding: 8px 16px;
+  font-size: 0.72rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto; /* Anchors footer */
+}
+
+#footerLeft {
+  flex: 0 0 auto;
+}
+
+#appVersion {
+  opacity: 0.45;
+  font-size: 0.65rem;
+  margin-left: 4px;
+}
+
+#footerRight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.footerBrand {
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: -0.2px;
+  opacity: 0.95;
+}
+
+.footerDivider {
+  opacity: 0.55;
+}
+
+.footerCopy,
+.footerName {
+  opacity: 0.8;
+  font-weight: 400;
+  font-size: 0.72rem;
+}
