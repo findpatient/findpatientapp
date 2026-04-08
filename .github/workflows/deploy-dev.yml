@@ -20,7 +20,7 @@ jobs:
         with:
           ref: dev
 
-      - name: Move files into /dev folder
+      - name: Prepare /dev folder
         run: |
           mkdir dev
           cp -R * dev || true
