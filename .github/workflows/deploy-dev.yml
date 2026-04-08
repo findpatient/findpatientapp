@@ -11,37 +11,24 @@ permissions:
   id-token: write
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout dev branch
         uses: actions/checkout@v4
+        with:
+          ref: dev
 
-      - name: Inject DEV environment variables
+      - name: Move files into /dev folder
         run: |
-          echo "REACT_APP_ENV=dev" >> $GITHUB_ENV
-          echo "REACT_APP_API_URL=${{ secrets.DEV_API_URL }}" >> $GITHUB_ENV
-          echo "REACT_APP_TRUST_CODE=${{ secrets.DEV_TRUST_CODE }}" >> $GITHUB_ENV
-          echo "REACT_APP_DASHBOARD_URL=${{ secrets.DEV_DASHBOARD_URL }}" >> $GITHUB_ENV
-
-      - name: Build Dev
-        run: |
-          npm ci
-          npm run build:dev
+          mkdir dev
+          cp -R * dev || true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./build
+          path: dev
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: dev
-      url: https://findpatient.app/dev/
-
-    steps:
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
