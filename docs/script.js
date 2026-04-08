@@ -264,8 +264,18 @@ function selectLocation(name) {
    ------------------------------ */
 
 function manualRefresh() {
+  // Only refresh if we're on the Tracking Board
   if (activeToolLabel.textContent !== "Tracking Board") return;
 
+  // Keep the UI consistent
+  activeToolLabel.textContent = "Tracking Board";
+  toolTracking.classList.add("selectedItem");
+  toolAddPatient.classList.remove("selectedItem");
+
+  // Close the tools menu
+  toolsMenu.classList.remove("open");
+
+  // Perform the refresh
   loadingSpinner.style.display = "block";
 
   const base = iframe.src.split("?")[0];
