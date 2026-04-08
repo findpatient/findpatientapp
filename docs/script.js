@@ -267,21 +267,32 @@ function manualRefresh() {
   // Only refresh if we're on the Tracking Board
   if (activeToolLabel.textContent !== "Tracking Board") return;
 
-  // Keep the UI consistent
-  activeToolLabel.textContent = "Tracking Board";
+  // Show temporary label
+  activeToolLabel.classList.add("refreshing");
+  activeToolLabel.textContent = "Refreshing…";
+
+  // Keep the correct tool highlighted
   toolTracking.classList.add("selectedItem");
   toolAddPatient.classList.remove("selectedItem");
 
   // Close the tools menu
   toolsMenu.classList.remove("open");
 
-  // Perform the refresh
+  // Trigger the refresh
   loadingSpinner.style.display = "block";
 
   const base = iframe.src.split("?")[0];
   const params = iframe.src.split("?")[1];
 
   iframe.src = `${base}?${params}&manual=${Date.now()}`;
+
+  // When the iframe finishes loading, restore the label
+  iframe.onload = () => {
+    loadingSpinner.style.display = "none";
+    activeToolLabel.classList.remove("refreshing");
+    activeToolLabel.textContent = "Tracking Board";
+    updateTimestamp();
+  };
 }
 
 setInterval(() => {
