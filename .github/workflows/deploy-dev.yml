@@ -26,7 +26,9 @@ jobs:
       - name: Prepare /dev folder
         run: |
           mkdir dev
-          cp -R * dev || true
+          cp -R * dev
+          rm -f dev/CNAME
+
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
